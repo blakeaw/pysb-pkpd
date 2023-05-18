@@ -3,6 +3,8 @@ from pysb.core import ComponentSet, as_complex_pattern, MonomerPattern, ComplexP
 import pysb.macros
 
 __all__ = [
+    "two_compartments",
+    "three_compartments",
     "eliminate",
     "eliminate_mm",
     "clearance",
@@ -25,53 +27,47 @@ def _check_for_monomer(species, compartment):
 
 def two_compartments(c1_name="CENTRAL", c1_size=1.0, c2_name="PERIPHERAL", c2_size=1.0):
     """
-    Generate a reaction for linear elimination of a species from a compartment.
-
-    Note that `species` is not required to be "concrete".
+    Generate compartments for a two-compartment model. 
 
     Parameters
     ----------
-    species : Monomer, MonomerPattern or ComplexPattern
-        The species undergoing linear elimination. If a Monomer, sites are considered
-        as unbound and in their default state. If a pattern, must be
-        concrete.
-    compartment : Compartment
-        The compartment from which the species is being lost.
-    kel : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
-        the generated Rule. If a number is passed, a Parameter will be created
-        with an automatically generated name based on the names and site states
-        of the components of `species` and this parameter will be included at
-        the end of the returned component list.
+    c1_name : string
+        The name of compartment 1. If a number is passed a Parameter will 
+         be created and given as the size for Compartment 1. Default=CENTRAL.
+    c1_size : Parameter or number
+        The volume of compartment 1. If a number is passed a Parameter will 
+         be created and given as the size for Compartment 1. Default=1.0
+    c2_name : string
+        The name of compartment 2.  Default=PERIPHERAL.
+    c2_size : Parameter or number
+        The volume of compartment 2. If a number is passed a Parameter will 
+         be created and given as the size for Compartment 2. Default=1.0
 
     Returns
     -------
     components : ComponentSet
-        The generated components. Contains the unidirectional elimination Rule
-        and optionally a Parameter if kel was given as a number.
+        The generated components. Contains the two compartments
+        and optionally two Parameters if c1_size and c2_size were 
+        given as numbers.
 
     Examples
     --------
-    Linear elimination all Drug in the Central compartment::
+    Use the default compartment names but adjust the size::
 
         Model()
-        Compartment('Central')
-        Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        two_comapartments(c1_size=30., c2_size=20.)
 
     Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
-        >>> Monomer('Drug')
-        Monomer('Drug')
-        >>> Compartment('CENTRAL', size=30.)
-        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> two_compartments() # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=V_CENTRAL),
+        Compartment(name='PERIPHERAL', parent=None, dimension=3, size=V_PERIPHERAL),
+        Parameter('V_CENTRAL', 1.0),
+        Parameter('V_PERIPHERAL', 1.0),
+        ])
 
     """
     params_created = ComponentSet()
@@ -98,55 +94,53 @@ def three_compartments(
     c3_size=1.0,
 ):
     """
-    Generate a reaction for linear elimination of a species from a compartment.
-
-    Note that `species` is not required to be "concrete".
+    Generate compartments for a three-compartment model. 
 
     Parameters
     ----------
-    species : Monomer, MonomerPattern or ComplexPattern
-        The species undergoing linear elimination. If a Monomer, sites are considered
-        as unbound and in their default state. If a pattern, must be
-        concrete.
-    compartment : Compartment
-        The compartment from which the species is being lost.
-    kel : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
-        the generated Rule. If a number is passed, a Parameter will be created
-        with an automatically generated name based on the names and site states
-        of the components of `species` and this parameter will be included at
-        the end of the returned component list.
-
+    c1_name : string
+        The name of compartment 1. Default=CENTRAL.
+    c1_size : Parameter or number
+        The volume of compartment 1. If a number is passed a Parameter will 
+         be created and given as the size for Compartment 1. Default=1.0
+    c2_name : string
+        The name of compartment 2. If a number is passed a Parameter will 
+         be created and given as the size for Compartment 2. Default=PERIPHERAL.
+    c2_size : Parameter or number
+        The volume of compartment 2. Default=1.0
+    c3_name : string
+        The name of compartment 2. If a number is passed a Parameter will 
+         be created and given as the size for Compartment 3. Default=DEEPPERIPHERAL.
+    c3_size : Parameter or number
+        The volume of compartment 3. Default=1.0
     Returns
     -------
     components : ComponentSet
-        The generated components. Contains the unidirectional elimination Rule
-        and optionally a Parameter if kel was given as a number.
+        The generated components. Contains the three compartments
+        and optionally three Parameters if c1_size, c2_size and
+        c3_size were given as numbers.
 
     Examples
     --------
-    Linear elimination all Drug in the Central compartment::
+    Use the default compartments:
 
         Model()
-        Compartment('Central')
-        Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        three_comapartments()
 
     Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
-        >>> Monomer('Drug')
-        Monomer('Drug')
-        >>> Compartment('CENTRAL', size=30.)
-        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> two_compartments() # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
-
-    """
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=V_CENTRAL),
+        Compartment(name='PERIPHERAL', parent=None, dimension=3, size=V_PERIPHERAL),
+        Compartment(name='DEEPPERIPHERAL', parent=None, dimension=3, size=V_DEEPPERIPHERAL),
+        Parameter('V_CENTRAL', 1.0),
+        Parameter('V_PERIPHERAL', 1.0),
+        Parameter('V_DEEPPERIPHERAL', 1.0),
+        ])
+    """    
     params_created = ComponentSet()
     C1_size = c1_size
     if not isinstance(C1_size, Parameter):
@@ -211,11 +205,11 @@ def eliminate(species, compartment, kel):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> eliminate(Drug, CENTRAL, 1e-3) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+        Rule('eliminate_Drug_CENTRAL', Drug() ** CENTRAL >> None, eliminate_Drug_CENTRAL_k),
+        Parameter('eliminate_Drug_CENTRAL_k', 0.001),
+        ])
 
     """
     if isinstance(species, Monomer):
@@ -250,27 +244,34 @@ def eliminate_mm(species, compartment, vmax, km):
         concrete.
     compartment : Compartment
         The compartment from which the species is being lost.
-    kel : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
-        the generated Rule. If a number is passed, a Parameter will be created
-        with an automatically generated name based on the names and site states
-        of the components of `species` and this parameter will be included at
+    vmax : Parameter or number
+        The maximum velocity (or limiting rate) for the reaction. If a Parameter
+        is passed, it will be used directly in the generated Rule. If a number
+        is passed, a Parameter will be created with an automatically generated
+        name based on the names and site states of the components of `species`
+        and this parameter will be included at
         the end of the returned component list.
-
+    km : Parameter or number
+        The Michaelis constant  for the reaction. If a Parameter
+        is passed, it will be used directly in the generated Rule. If a number
+        is passed, a Parameter will be created with an automatically generated
+        name based on the names and site states of the components of `species`
+        and this parameter will be included at
+        the end of the returned component list.
     Returns
     -------
     components : ComponentSet
         The generated components. Contains the unidirectional elimination Rule
-        and optionally a Parameter if kel was given as a number.
+        and optionally two Parameters if vmax and km were given as numbers.
 
     Examples
     --------
-    Linear elimination all Drug in the Central compartment::
+    Non-linear elimination of Drug in the CENTRAL compartment::
 
         Model()
-        Compartment('Central')
+        Compartment('CENTRAL')
         Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        eliminate_mm(Drug, Central, 1., 15.)
 
     Execution::
 
@@ -280,11 +281,14 @@ def eliminate_mm(species, compartment, vmax, km):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> eliminate_mm(Drug, CENTRAL, 1., 15.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+         Rule('eliminate_mm_Drug_CENTRAL', Drug() ** CENTRAL >> None, k_expr_Drug_CENTRAL),
+         Parameter('Vmax_Drug_CENTRAL', 1.0),
+         Parameter('Km_Drug_CENTRAL', 15.0),
+         Observable('_obs_expr_Drug_CENTRAL', Drug() ** CENTRAL),
+         Expression('k_expr_Drug_CENTRAL', Vmax_Drug_CENTRAL/(_obs_expr_Drug_CENTRAL + Km_Drug_CENTRAL)),
+        ])
 
     """
 
@@ -337,8 +341,8 @@ def clearance(species, compartment, cl):
         concrete.
     compartment : Compartment
         The compartment from which the species is being lost.
-    kel : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
+    cl : Parameters or number
+        Clearance rate in volume/time. If a Parameter is passed, it will be used directly in
         the generated Rule. If a number is passed, a Parameter will be created
         with an automatically generated name based on the names and site states
         of the components of `species` and this parameter will be included at
@@ -347,17 +351,18 @@ def clearance(species, compartment, cl):
     Returns
     -------
     components : ComponentSet
-        The generated components. Contains the unidirectional elimination Rule
-        and optionally a Parameter if kel was given as a number.
+        The generated components. Contains the unidirectional clearance Rule,
+        an Expression for the conversion of the clearance rate to a unidirectional 
+        rate constant, and optionally a Parameter if cl was given as a number.
 
     Examples
     --------
     Linear elimination all Drug in the Central compartment::
 
         Model()
-        Compartment('Central')
+        Compartment('CENTRAL')
         Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        clearace(Drug, CENTRAL, 1.)
 
     Execution::
 
@@ -367,11 +372,12 @@ def clearance(species, compartment, cl):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> clearance(Drug, CENTRAL, 1.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+         Rule('clearance_Drug_CENTRAL', Drug() ** CENTRAL >> None, k_CL_expr_Drug_CENTRAL),
+         Expression('k_CL_expr_Drug_CENTRAL', CL_Drug_CENTRAL/V_CENTRAL),
+         Parameter('CL_Drug_CENTRAL', 1.0),
+        ])
 
     """
     if isinstance(species, Monomer):
@@ -403,7 +409,9 @@ def clearance(species, compartment, cl):
 
 def distribute(species, c1, c2, klist):
     """
-    Generate the unimolecular reversible equilibrium reaction species ** c1 <-> species ** c2.
+    Generate the unimolecular reversible equilibrium reaction
+    to distribute the species between the two compartments:
+    species ** c1 <-> species ** c2.
 
     Parameters
     ----------
@@ -426,27 +434,30 @@ def distribute(species, c1, c2, klist):
 
     Examples
     --------
-    Simple two-state equilibrium between A and B::
+    Distribution of Drug between the CENTRAL and PERIPHERAL compartments::
 
         Model()
-        Monomer('A')
-        Monomer('B')
-        equilibrate(A(), B(), [1, 1])
+        Monomer('Drug')
+        Compartment("CENTRAL")
+        Compartment("PERIPHERAL")
+        distribute(Drug, CENTRAL, PERIPHERAL, [1, 1])
 
     Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
-        >>> Monomer('A')
-        Monomer('A')
-        >>> Monomer('B')
-        Monomer('B')
-        >>> equilibrate(A(), B(), [1, 1]) # doctest:+NORMALIZE_WHITESPACE
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment("CENTRAL")
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=1.),
+        >>> Compartment("PERIPERAL")
+        Compartment(name='PERIPHERAL', parent=None, dimension=3, size=1.),        
+        >>> distribute(Drug, CENTRAL, PERIPHERAL [1, 1]) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('equilibrate_A_to_B', A() | B(), equilibrate_A_to_B_kf, equilibrate_A_to_B_kr),
-         Parameter('equilibrate_A_to_B_kf', 1.0),
-         Parameter('equilibrate_A_to_B_kr', 1.0),
-         ])
+         Rule('distribute_Drug_CENTRAL_to_PERIPHERAL', Drug() ** CENTRAL | Drug() ** PERIPHERAL, distribute_Drug_CENTRAL_to_PERIPHERAL_kf, distribute_Drug_CENTRAL_to_PERIPHERAL_kr),
+         Parameter('distribute_Drug_CENTRAL_to_PERIPHERAL_kf', 1.0),
+         Parameter('distribute_Drug_CENTRAL_to_PERIPHERAL_kr', 1.0),
+        ])
 
     """
 
@@ -760,7 +771,7 @@ def single_dose(species, compartment, dose):
     Vcomp = compartment.size
     if not isinstance(Dose, Parameter):
         Dose = Parameter("dose_{0}_{1}".format(monomer_name, comp_name), dose)
-        dose_expr = Expression("expr_{0}_{1}_0".format(monomer_name, comp_name), dose / Vcomp)
+        dose_expr = Expression("expr_{0}_{1}_0".format(monomer_name, comp_name), Dose / Vcomp)
         params_created.add(Dose)
         params_created.add(dose_expr)
     else:
