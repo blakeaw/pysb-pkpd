@@ -410,7 +410,7 @@ def clearance(species, compartment, cl):
 def distribute(species, c1, c2, klist):
     """
     Generate the unimolecular reversible equilibrium reaction
-    to distribute the species between the two compartments:
+    to distribute/redistribute the species between the two compartments:
     species ** c1 <-> species ** c2.
 
     Parameters
@@ -434,7 +434,7 @@ def distribute(species, c1, c2, klist):
 
     Examples
     --------
-    Distribution of Drug between the CENTRAL and PERIPHERAL compartments::
+    Distribution/redistribution of Drug between the CENTRAL and PERIPHERAL compartments::
 
         Model()
         Monomer('Drug')
@@ -481,7 +481,8 @@ def distribute(species, c1, c2, klist):
 
 def transfer(species, c1, c2, k):
     """
-    Generate the unimolecular reaction species ** c1 --> species ** c2.
+    Generate a unimolecular irreversible reaction to transfer a species from one
+    compartment to another:  species ** c1 --> species ** c2.
 
     Parameters
     ----------
@@ -498,27 +499,29 @@ def transfer(species, c1, c2, k):
 
     Examples
     --------
-    Simple two-state equilibrium between A and B::
+    Transfer drug irreveribly from the Central to Peripheral compartment::
 
         Model()
-        Monomer('A')
-        Monomer('B')
-        equilibrate(A(), B(), [1, 1])
+        Monomer('Drug')
+        Compartment("CENTRAL")
+        Compartment("PERIPHERAL")
+        transfer(Drug, CENTRAL, PERIPHERAL,  1.)
 
     Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
-        >>> Monomer('A')
-        Monomer('A')
-        >>> Monomer('B')
-        Monomer('B')
-        >>> equilibrate(A(), B(), [1, 1]) # doctest:+NORMALIZE_WHITESPACE
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment("CENTRAL")
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=1.),
+        >>> Compartment("PERIPERAL")
+        Compartment(name='PERIPHERAL', parent=None, dimension=3, size=1.),        
+        >>> transfer(Drug, CENTRAL, PERIPHERAL, 1.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('equilibrate_A_to_B', A() | B(), equilibrate_A_to_B_kf, equilibrate_A_to_B_kr),
-         Parameter('equilibrate_A_to_B_kf', 1.0),
-         Parameter('equilibrate_A_to_B_kr', 1.0),
-         ])
+         Rule('transfer_Drug_CENTRAL_to_PERIPHERAL', Drug() ** CENTRAL >> Drug() ** PERIPHERAL, transfer_Drug_CENTRAL_to_PERIPHERAL_k),
+         Parameter('transfer_Drug_CENTRAL_to_PERIPHERAL_k', 1.0),
+        ])
 
     """
 
@@ -542,7 +545,8 @@ def transfer(species, c1, c2, k):
 
 def emax(species, compartment, emax, ec50):
     """
-    Generate an expression for Emax model for effect of species in a compartment.
+    Generate an expression for Emax model for effect of species in a compartment:
+        emax * [species ** compartment] / ( [species ** compartment] + ec50 )
 
     Note that `species` is not required to be "concrete".
 
@@ -553,29 +557,35 @@ def emax(species, compartment, emax, ec50):
         as unbound and in their default state. If a pattern, must be
         concrete.
     compartment : Compartment
-        The compartment from which the species is being lost.
-    emax : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
+        The compartment for which the effect is being measured.
+    emax : Parameter or number
+        Maximum effect value. If a Parameter is passed, it will be used directly in
         the generated Rule. If a number is passed, a Parameter will be created
         with an automatically generated name based on the names and site states
         of the components of `species` and this parameter will be included at
         the end of the returned component list.
     ec50 : Parameter or number
+        The 50% effect concentration. If a Parameter is passed, it will be used directly in
+        the generated Rule. If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
 
     Returns
     -------
     components : ComponentSet
-        The generated components. Contains the unidirectional elimination Rule
-        and optionally a Parameter if kel was given as a number.
+        The generated components. Contains the Emax expression, a corresponding 
+        observable for the species concentration, and optionally up to two
+        Parameters if emax and ec50 were given as numbers.
 
     Examples
     --------
-    Linear elimination all Drug in the Central compartment::
+    Emax effect for Drug in the Central compartment::
 
         Model()
         Compartment('Central')
         Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        emax(Drug, Central, 2.4, 100.)
 
     Execution::
 
@@ -585,11 +595,13 @@ def emax(species, compartment, emax, ec50):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> emax(Drug, Central 2.4, 100.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+         Observable('_obs_emax_expr_Drug_CENTRAL', Drug() ** CENTRAL),
+         Expression('Emax_expr_Drug_CENTRAL', _obs_emax_expr_Drug_CENTRAL*Emax_Drug_CENTRAL/(_obs_emax_expr_Drug_CENTRAL + EC50_Drug_CENTRAL)),
+         Parameter('Emax_Drug_CENTRAL', 2.4),
+         Parameter('EC50_Drug_CENTRAL', 100.0),
+        ])
 
     """
 
@@ -623,7 +635,8 @@ def emax(species, compartment, emax, ec50):
 
 def sigmoidal_emax(species, compartment, emax, ec50, n):
     """
-    Generate an expression for a sigmoidal Emax model for effect of species in a compartment.
+    Generate an expression for sigmoidal Emax model for effect of species in a compartment:
+        emax * [species ** compartment] ** n / ( [species ** compartment] ** n + ec50 ** n)
 
     Note that `species` is not required to be "concrete".
 
@@ -634,29 +647,41 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
         as unbound and in their default state. If a pattern, must be
         concrete.
     compartment : Compartment
-        The compartment from which the species is being lost.
-    emax : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
+        The compartment for which the effect is being measured.
+    emax : Parameter or number
+        Maximum effect value. If a Parameter is passed, it will be used directly in
         the generated Rule. If a number is passed, a Parameter will be created
         with an automatically generated name based on the names and site states
         of the components of `species` and this parameter will be included at
         the end of the returned component list.
     ec50 : Parameter or number
+        The 50% effect concentration. If a Parameter is passed, it will be used directly in
+        the generated Rule. If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+    n : Parameter or number
+        The Hill coefficient. If a Parameter is passed, it will be used directly in
+        the generated Rule. If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.        
 
     Returns
     -------
     components : ComponentSet
-        The generated components. Contains the unidirectional elimination Rule
-        and optionally a Parameter if kel was given as a number.
+        The generated components. Contains the Emax expression, a corresponding 
+        observable for the species concentration, and optionally up to three
+        Parameters if emax, ec50, and n were given as numbers.
 
     Examples
     --------
-    Linear elimination all Drug in the Central compartment::
+    Emax effect for Drug in the Central compartment::
 
         Model()
-        Compartment('Central')
+        Compartment('Peripheral')
         Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        sigmoidal_emax(Drug, Peripheral, 4.4, 50.)
 
     Execution::
 
@@ -666,11 +691,13 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> emax(Drug, Central 2.4, 100.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+         Observable('_obs_emax_expr_Drug_CENTRAL', Drug() ** CENTRAL),
+         Expression('Emax_expr_Drug_CENTRAL', _obs_emax_expr_Drug_CENTRAL*Emax_Drug_CENTRAL/(_obs_emax_expr_Drug_CENTRAL + EC50_Drug_CENTRAL)),
+         Parameter('Emax_Drug_CENTRAL', 2.4),
+         Parameter('EC50_Drug_CENTRAL', 100.0),
+        ])
 
     """
 
