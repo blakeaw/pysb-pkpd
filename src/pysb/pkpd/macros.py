@@ -693,10 +693,11 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
         >>> emax(Drug, Central 2.4, 100.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Observable('_obs_emax_expr_Drug_CENTRAL', Drug() ** CENTRAL),
-         Expression('Emax_expr_Drug_CENTRAL', _obs_emax_expr_Drug_CENTRAL*Emax_Drug_CENTRAL/(_obs_emax_expr_Drug_CENTRAL + EC50_Drug_CENTRAL)),
-         Parameter('Emax_Drug_CENTRAL', 2.4),
-         Parameter('EC50_Drug_CENTRAL', 100.0),
+         Observable('_obs_emax_expr_Drug_PERIPHERAL', Drug() ** PERIPHERAL),
+         Expression('Emax_expr_Drug_PERIPHERAL', _obs_emax_expr_Drug_PERIPHERAL**n_Drug_PERIPHERAL*Emax_Drug_PERIPHERAL/(_obs_emax_expr_Drug_PERIPHERAL**n_Drug_PERIPHERAL + EC50_Drug_PERIPHERAL**n_Drug_PERIPHERAL)),
+         Parameter('Emax_Drug_PERIPHERAL', 4.4),
+         Parameter('EC50_Drug_PERIPHERAL', 50.0),
+         Parameter('n_Drug_PERIPHERAL', 1.7),
         ])
 
     """
@@ -716,7 +717,7 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
     EC50 = ec50
     if not isinstance(EC50, Parameter):
         EC50 = Parameter("EC50_{0}_{1}".format(monomer_name, comp_name), ec50)
-        params_created.add(ec50)
+        params_created.add(EC50)
     hill_coeff = n
     if not isinstance(n, Parameter):
         hill_coeff = Parameter("n_{0}_{1}".format(monomer_name, comp_name), n)
@@ -733,27 +734,29 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
     return expr_components | params_created
 
 
-def single_dose(species, compartment, dose):
+def dose_bolus(species, compartment, dose):
     """
-    Generate an expression for a sigmoidal Emax model for effect of species in a compartment.
+    An instantaneous, or bolus, dose of species in compartment.
 
-    Note that `species` is not required to be "concrete".
+    Note that `species` is not required to be "concrete". The dose should be given in 
+    amount such as weight, mass, or moles which is converted into a concentration
+    by dividing by the compartment size. This is set as the initial concentration at 
+    time zero. 
 
     Parameters
     ----------
     species : Monomer, MonomerPattern or ComplexPattern
-        The species undergoing linear elimination. If a Monomer, sites are considered
+        The species to set with Initial. If a Monomer, sites are considered
         as unbound and in their default state. If a pattern, must be
         concrete.
     compartment : Compartment
-        The compartment from which the species is being lost.
-    emax : Parameters or number
-        Linear elimination rate. If a Parameter is passed, it will be used directly in
+        The compartment to which the species is added.
+    dose : Parameter or number
+        The bolus dose amount. If a Parameter is passed, it will be used directly in
         the generated Rule. If a number is passed, a Parameter will be created
         with an automatically generated name based on the names and site states
         of the components of `species` and this parameter will be included at
         the end of the returned component list.
-    ec50 : Parameter or number
 
     Returns
     -------
@@ -768,7 +771,7 @@ def single_dose(species, compartment, dose):
         Model()
         Compartment('Central')
         Monomer('Drug')
-        elimination(Drug, Central, 1e-4)
+        dose_bolus(Drug, Central, 100.)
 
     Execution::
 
@@ -778,11 +781,11 @@ def single_dose(species, compartment, dose):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> elimination(Drug, Central 1e-6) # doctest:+NORMALIZE_WHITESPACE
+        >>> dose_bolus(Drug, CENTRAL, 100.) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Rule('degrade_B', B() >> None, degrade_B_k),
-         Parameter('degrade_B_k', 1e-06),
-         ])
+         Parameter('dose_Drug_CENTRAL', 100.0),
+         Expression('expr_Drug_CENTRAL_0', dose_Drug_CENTRAL/V_CENTRAL),
+        ])
 
     """
 
@@ -802,9 +805,94 @@ def single_dose(species, compartment, dose):
         params_created.add(Dose)
         params_created.add(dose_expr)
     else:
-        dose_expr = Parameter("expr_{0}_{1}_0".format(monomer_name, comp_name), Dose / Vcomp)
+        dose_expr = Expression("expr_{0}_{1}_0".format(monomer_name, comp_name), Dose / Vcomp)
         params_created.add(dose_expr) 
 
     initial = Initial(species, dose_expr)
 
     return params_created #| ComponentSet([initial])
+
+def dose_infusion(species, compartment, dose):
+    """
+    A continuous, zero-order, infusion dose of species in compartment.
+
+    Note that `species` is not required to be "concrete". Here, dose should be given in 
+    amount per time such as weight/s, mass/s, or moles/s which is converted into a
+    concentration per unit time by dividing by the compartment size. 
+
+    Parameters
+    ----------
+    species : Monomer, MonomerPattern or ComplexPattern
+        The species to set with Initial. If a Monomer, sites are considered
+        as unbound and in their default state. If a pattern, must be
+        concrete.
+    compartment : Compartment
+        The compartment to which the species is added.
+    dose : Parameter or number
+        The infusion dose rate. If a Parameter is passed, it will be used directly in
+        the generated Rule. If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains the unidirectional elimination Rule
+        and optionally a Parameter if kel was given as a number.
+
+    Examples
+    --------
+    Linear elimination all Drug in the Central compartment::
+
+        Model()
+        Compartment('CENTRAL')
+        Monomer('Drug')
+        dose_infusion(Drug, Central, 100.)
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment('CENTRAL', size=30.)
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
+        >>> dose_infusion(Drug, CENTRAL, 100.) # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Rule('infuse_Drug_CENTRAL', None >> Drug() ** CENTRAL, expr_Drug_CENTRAL_k0),
+         Parameter('dose_Drug_CENTRAL', 1.0),
+         Expression('expr_Drug_CENTRAL_k0', dose_Drug_CENTRAL/V_CENTRAL),
+        ])
+
+    """
+
+    if isinstance(species, Monomer):
+        monomer_name = species.name
+    else:
+        monomer_name = species.monomer.name
+    comp_name = compartment.name
+    
+    def infuse_name_func(rule_expression):
+        cps = rule_expression.reactant_pattern.complex_patterns
+        # return '_'.join(pysb.macros._complex_pattern_label(cp) for cp in cps)
+        return "_".join([monomer_name, comp_name])
+    
+    species = _check_for_monomer(species, compartment)
+    params_created = ComponentSet()
+    Dose = dose
+    Vcomp = compartment.size
+    if not isinstance(Dose, Parameter):
+        Dose = Parameter("dose_{0}_{1}".format(monomer_name, comp_name), dose)
+        dose_expr = Expression("expr_{0}_{1}_k0".format(monomer_name, comp_name), Dose / Vcomp)
+        params_created.add(Dose)
+        params_created.add(dose_expr)
+    else:
+        dose_expr = Expression("expr_{0}_{1}_k0".format(monomer_name, comp_name), Dose / Vcomp)
+        params_created.add(dose_expr) 
+
+    #initial = Initial(species, 0)
+    components = pysb.macros._macro_rule('infuse', None >> species, [dose_expr], ['k0'],
+                    name_func=infuse_name_func)
+
+    return components | params_created
