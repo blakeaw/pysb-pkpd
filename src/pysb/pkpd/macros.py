@@ -12,7 +12,8 @@ __all__ = [
     "transfer",
     "emax",
     "sigmoidal_emax",
-    "single_dose"
+    "dose_bolus",
+    "dose_infusion",
 ]
 
 
