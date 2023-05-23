@@ -13,6 +13,8 @@ PySB plugin package providing domain-specific macros and models for pharmacologi
  4. [Documentation and Usage](#documentation-and-usage)
      1. [Quick Overview](#quick-overview)
      2. [Example](#example)
+     3. [List of macros](#list-of-macros)
+     4. [Preconstructed models](#preconstructed-models)
  5. [Contact](#contact)
  6. [Citing](#citing)  
 
@@ -155,7 +157,7 @@ Dosing functions:
   * `dose_bolus` - adds an instantaneous bolus dose of the specified drug/species, defining the initial concentration at time zero.
   * `dose_infusion` - adds a continous (zero-order) infusion of the specified drug/species. 
 
-### Pre-constructed models
+### Preconstructed models
 
 In addition to the macros module, `pysb-pkpd` includes some pre-constructed two-compartment and three-compartment models. 
 
@@ -163,16 +165,15 @@ In addition to the macros module, `pysb-pkpd` includes some pre-constructed two-
 
 Two-compartment and three-compartment PK models with Emax PD function for the drug in the central compartment:
 ```python
-from pysb.pkpd.pk_models import twocomp, threecomp
+from pysb.pkpd.models import twocomp_emax, threecomp_emax
 ```
 
 #### PK-only models
 
 Two-compartment and three-compartment PK models:
 ```python
-from pysb.pkpd.models import twocomp_emax, threecomp_emax
+from pysb.pkpd.pk_models import twocomp, threecomp
 ```
-
 
 ------
 
