@@ -1,6 +1,6 @@
 # pysb-pkpd
 
-PySB plugin package providing domain-specific macros and models for pharmacological PK/PD modeling.
+PySB plugin package providing domain-specific macros and models for pharmacological PK/PD modeling. `pysb-pkpd` can be used with along with the main PySB features to build and execute both classical and mechanistic (or semi-mechanistic) PK/PD models, as well as quantitative systems pharmacology/toxicology (QSP/QST) models.
 
 ## Table of Contents
 
@@ -139,6 +139,7 @@ The `pysb.pkpd.macros` module currently defines the following macros encoding PK
 
 PK functions:
 
+  * `one_compartment` - adds one compartment to the model for a one-comaprtment PK model. Alternatively, it could be used to add a new compartment to a multi-compartment model. 
   * `two_compartments` - adds two compartments to the model for a two-comaprtment PK model.
   * `three_compartments` - adds three compartments to the model for a three-compartment PK model.
   * `eliminate` - adds linear (1st-order) elimination of the specified drug/species from a compartment.
@@ -151,11 +152,13 @@ PD functions:
 
   * `emax` - Adds an Emax model expression for the specified drug/species in a given compartment.
   * `sigmoidal_emax` - Adds a sigmoidal Emax model expression for the specified drug/species in a given compartment.
+  * `linear_effect` - Adds a linear effect model expression for the specified drug/specis in a given compartment.
 
 Dosing functions:
 
-  * `dose_bolus` - adds an instantaneous bolus dose of the specified drug/species, defining the initial concentration at time zero.
-  * `dose_infusion` - adds a continous (zero-order) infusion of the specified drug/species. 
+  * `dose_bolus` - adds an instantaneous bolus dose of the specified drug/species which defines the initial concentration at time zero; e.g., to model IV bolus.
+  * `dose_infusion` - adds a continous (zero-order) infusion of the specified drug/species; e.g., to model continuous IV infusion. 
+  * `dose_absorbed` - adds a dose of the specified drug which is absorbed into the specified compartment via first-order kinetics, including a bioavailibity factor; e.g., to model oral dosing or a subcutaneous depot. 
 
 ### Preconstructed models
 

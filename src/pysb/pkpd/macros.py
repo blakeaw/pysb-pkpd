@@ -3,6 +3,7 @@ from pysb.core import ComponentSet, as_complex_pattern, MonomerPattern, ComplexP
 import pysb.macros
 
 __all__ = [
+    "one_compartment",
     "two_compartments",
     "three_compartments",
     "eliminate",
@@ -12,8 +13,10 @@ __all__ = [
     "transfer",
     "emax",
     "sigmoidal_emax",
+    "linear_effect"
     "dose_bolus",
     "dose_infusion",
+    "dose_absorbed",
 ]
 
 
@@ -25,6 +28,52 @@ def _check_for_monomer(species, compartment):
     species = pysb.macros.as_complex_pattern(species)
     return species
 
+def one_compartment(c1_name="CENTRAL", c1_size=1.0):
+    """
+    Generate a compartment for a one-compartment model, or to add an additional compartment to a multi-compartment model. 
+
+    Parameters
+    ----------
+    c1_name : string
+        The name of the compartment. If a number is passed a Parameter will 
+         be created and given as the size for Compartment. Default=CENTRAL.
+    c1_size : Parameter or number
+        The volume of the compartment. If a number is passed a Parameter will 
+         be created and given as the size for the Compartment. Default=1.0
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains the compartment
+        and optionally a Parameter if c1_size was 
+        given as a number.
+
+    Examples
+    --------
+    Define a central compartment for a one-compartment model::
+
+        Model()
+        one_comapartment()
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> one_compartment() # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Compartment(name='CENTRAL', parent=None, dimension=3, size=V_CENTRAL),
+         Parameter('V_CENTRAL', 1.0),
+        ])
+
+    """
+    params_created = ComponentSet()
+    C1_size = c1_size
+    if not isinstance(C1_size, Parameter):
+        C1_size = Parameter("V_{0}".format(c1_name), c1_size)
+        params_created.add(C1_size)
+    C1 = Compartment(c1_name, size=C1_size)
+    compartments = ComponentSet([C1])
+    return compartments | params_created
 
 def two_compartments(c1_name="CENTRAL", c1_size=1.0, c2_name="PERIPHERAL", c2_size=1.0):
     """

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2023-05-23
+
+### Added
+- `dose_absorbed` dosing macro function to the `pysb.pkpd.macros` module.
+- `linear_effect` dosing macro function to the `pysb.pkpd.macros` module.
+- `one_compartment` compartment macro function to the `pysb.pkpd.macros` module.
+
 ## [0.1.0] - 2023-05-23
 
 ### Added
