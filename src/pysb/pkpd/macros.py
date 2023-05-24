@@ -734,6 +734,84 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
 
     return expr_components | params_created
 
+def linear_effect(species, compartment, slope):
+    """
+    Generate an expression for linear model for effect of species in a compartment:
+        effect = slope * [species ** compartment] 
+
+    Note that `species` is not required to be "concrete".
+
+    Parameters
+    ----------
+    species : Monomer, MonomerPattern or ComplexPattern
+        The species/drug whose effect is being measured. If a Monomer, sites are considered
+        as unbound and in their default state. If a pattern, must be
+        concrete.
+    compartment : Compartment
+        The compartment for which the effect is being measured.
+    slope : Parameter or number
+        The proportinality factor or slope in the linear relationship. If a 
+        Parameter is passed, it will be used directly in the generated Rule.
+        If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains the Linear expression, a corresponding 
+        observable for the species concentration, and optionally a
+        Parameter if slope was given as a number.
+
+    Examples
+    --------
+    Linear effect for Drug in the Central compartment::
+
+        Model()
+        Compartment('Central')
+        Monomer('Drug')
+        linear_effect(Drug, Central, 0.35)
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment('CENTRAL', size=30.)
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
+        >>> linear_effect(Drug, CENTRAL, 0.35) # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Observable('_obs_lineffect_expr_Drug_CENTRAL', Drug() ** CENTRAL),
+         Expression('LinearEffect_expr_Drug_CENTRAL', _obs_lineffect_expr_Drug_CENTRAL*Slope_Drug_CENTRAL),
+         Parameter('Slope_Drug_CENTRAL', 0.35),
+        ])
+        
+    """
+
+    if isinstance(species, Monomer):
+        monomer_name = species.name
+    else:
+        monomer_name = species.monomer.name
+    comp_name = compartment.name
+
+    species = _check_for_monomer(species, compartment)
+    params_created = ComponentSet()
+    M = slope
+    if not isinstance(slope, Parameter):
+        M = Parameter("Slope_{0}_{1}".format(monomer_name, comp_name), slope)
+        params_created.add(M)
+    obs_expr = Observable(
+        "_obs_lineffect_expr_{0}_{1}".format(monomer_name, comp_name), species
+    )
+    expr = Expression(
+        "LinearEffect_expr_{0}_{1}".format(monomer_name, comp_name),
+        M * obs_expr,
+    )
+    expr_components = ComponentSet([obs_expr, expr])
+
+    return expr_components | params_created
 
 def dose_bolus(species, compartment, dose):
     """
