@@ -1,6 +1,12 @@
 # pysb-pkpd
 
-PySB plugin package providing domain-specific macros and models for pharmacological PK/PD modeling. `pysb-pkpd` can be used with along with the main PySB features to build and execute both classical and mechanistic (or semi-mechanistic) PK/PD models, as well as quantitative systems pharmacology/toxicology (QSP/QST) models.
+![Python version badge](https://img.shields.io/badge/python-3.11.3-blue.svg)
+[![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
+[![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
+![version](https://img.shields.io/badge/version-0.2.0-orange.svg)
+[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.2.0)
+
+PySB plugin package providing domain-specific macros and models for pharmacological PK/PD modeling. `pysb-pkpd` can be used along with the main PySB features to build and execute both classical and mechanistic (or semi-mechanistic) PK/PD models, as well as quantitative systems pharmacology/toxicology (QSP/QST) models.
 
 ## Table of Contents
 
