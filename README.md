@@ -36,27 +36,27 @@ Note that `pysb-pkpd` has the following core dependencies:
 
 ### pip install
 
-You can install `pysb-pkpd` version 0.1.0 with `pip` sourced from the GitHub repo:
+You can install `pysb-pkpd` version 0.2.0 with `pip` sourced from the GitHub repo:
 
 ##### with git installed:
 
 Fresh install:
 ```
-pip install git+https://github.com/blakeaw/pysb-pkpd@v0.1.0
+pip install git+https://github.com/blakeaw/pysb-pkpd@v0.2.0
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.1.0
+pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.2.0
 ```
 ##### without git installed:
 
 Fresh install:
 ```
-pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.1.0.zip
+pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.0.zip
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.1.0.zip
+pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.0.zip
 ```
 ### Manual install
 
