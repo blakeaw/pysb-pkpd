@@ -897,3 +897,105 @@ def dose_infusion(species, compartment, dose):
                     name_func=infuse_name_func)
 
     return components | params_created
+
+def dose_absorbed(species, compartment, dose, ka, f):
+    """
+    A dose that is absorbed into the compartment via first order kinetics with a given bioavailability.
+
+    Note that `species` is not required to be "concrete". The dose should be given in 
+    amount such as weight, mass, or moles.
+
+    Parameters
+    ----------
+    species : Monomer, MonomerPattern or ComplexPattern
+        The species to set with Initial. If a Monomer, sites are considered
+        as unbound and in their default state. If a pattern, must be
+        concrete.
+    compartment : Compartment
+        The compartment to which the species is added.
+    dose : Parameter or number
+        The bolus dose amount. If a Parameter is passed, it will be used directly in
+        the generated Rule. If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+    ka : Parameter or number
+        The first-order kinetic rate parameter for the absorption process. Units should be amount/time.
+    f : Parameter or number
+        The bioavailability of the drug/species (fraction 0 to 1).         
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains the unidirectional absorption Rule, an 
+        expression for the effective rate (ka * f), and optionally three Parameters
+        if dose, ka, and f were given as numbers.
+
+    Examples
+    --------
+    Absorbed dose to central compartment::
+
+        Model()
+        Monomer("Drug")
+        Compartment('CENTRAL')
+        dose_absorbed(Drug, CENTRAL, 100., 1.1, 0.8)
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment('CENTRAL', size=30.)
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
+        >>> dose_absorbed(Drug, CENTRAL, 100.) # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Rule('absorb_Drug_CENTRAL', None >> Drug() ** CENTRAL, expr_Drug_CENTRAL_absorb_rate),
+         Parameter('dose_Drug_CENTRAL', 100.0),
+         Expression('expr_Drug_CENTRAL_dose', dose_Drug_CENTRAL/V_CENTRAL),
+         Parameter('ka_Drug_CENTRAL', 1.1),
+         Parameter('F_Drug_CENTRAL', 0.8),
+         Expression('expr_Drug_CENTRAL_absorb_rate', F_Drug_CENTRAL*ka_Drug_CENTRAL*(expr_Drug_CENTRAL_dose - _obs_ka_expr_Drug_CENTRAL)/V_CENTRAL),
+        ])
+
+    """
+
+    if isinstance(species, Monomer):
+        monomer_name = species.name
+    else:
+        monomer_name = species.monomer.name
+    comp_name = compartment.name
+
+    def absorb_name_func(rule_expression):
+        cps = rule_expression.reactant_pattern.complex_patterns
+        # return '_'.join(pysb.macros._complex_pattern_label(cp) for cp in cps)
+        return "_".join([monomer_name, comp_name])
+    
+    species = _check_for_monomer(species, compartment)
+    params_created = ComponentSet()
+    Dose = dose
+    Vcomp = compartment.size
+    if not isinstance(Dose, Parameter):
+        Dose = Parameter("dose_{0}_{1}".format(monomer_name, comp_name), dose)
+        dose_expr = Expression("expr_{0}_{1}_dose".format(monomer_name, comp_name), Dose / Vcomp)
+        params_created.add(Dose)
+        params_created.add(dose_expr)
+    else:
+        dose_expr = Expression("expr_{0}_{1}_dose".format(monomer_name, comp_name), Dose / Vcomp)
+        params_created.add(dose_expr)
+    if not isinstance(ka, Parameter):
+        ka_param = Parameter("ka_{0}_{1}".format(monomer_name, comp_name), ka)
+        params_created.add(ka_param)
+    if not isinstance(f, Parameter):
+        F = Parameter("F_{0}_{1}".format(monomer_name, comp_name), f)
+        params_created.add(F)
+    obs_expr = Observable(
+        "_obs_ka_expr_{0}_{1}".format(monomer_name, comp_name), species
+    )             
+    rate_expr = Expression("expr_{0}_{1}_absorb_rate".format(monomer_name, comp_name), (dose_expr - obs_expr) * (F * ka_param) / Vcomp)
+    params_created.add(rate_expr)
+
+    components = pysb.macros._macro_rule('absorb', None >> species, [rate_expr], ['ka'],
+                    name_func=absorb_name_func)
+
+    return components | params_created
