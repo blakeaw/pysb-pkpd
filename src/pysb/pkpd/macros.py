@@ -3,6 +3,7 @@ from pysb.core import ComponentSet, as_complex_pattern, MonomerPattern, ComplexP
 import pysb.macros
 
 __all__ = [
+    "drug_monomer",
     "one_compartment",
     "two_compartments",
     "three_compartments",
@@ -27,6 +28,41 @@ def _check_for_monomer(species, compartment):
         species = species**compartment
     species = pysb.macros.as_complex_pattern(species)
     return species
+
+def drug_monomer(name="Drug"):
+    """
+    Adds a new simple Monomer representing the drug to the model. 
+
+    Parameters
+    ----------
+    name : string
+        The name of the drug. Default=Drug.
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains drug Monomer.
+
+    Examples
+    --------
+    Add a drug name "chaidil"::
+
+        Model()
+        drug_monomer(name="chaidil")
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> drug_monomer(name="chaidil") # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Monomer('chaidil')
+        ])
+
+    """   
+    monomer = Monomer(name)
+    components = ComponentSet([monomer])
+    return components
 
 def one_compartment(c1_name="CENTRAL", c1_size=1.0):
     """

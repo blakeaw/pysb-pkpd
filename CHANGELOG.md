@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `dose_absorbed` dosing macro function to the `pysb.pkpd.macros` module.
 - `linear_effect` dosing macro function to the `pysb.pkpd.macros` module.
 - `one_compartment` compartment macro function to the `pysb.pkpd.macros` module.
+- `drug_monomer` macro function to the `pysb.pkpd.macros` module.
 
 ## [0.1.0] - 2023-05-23
 

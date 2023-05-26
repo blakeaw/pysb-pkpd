@@ -6,7 +6,7 @@
 ![version](https://img.shields.io/badge/version-0.2.0-orange.svg)
 [![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.2.0)
 
-PySB plugin package providing domain-specific macros and models for pharmacological PK/PD modeling. `pysb-pkpd` can be used along with the main PySB features to build and execute both classical and mechanistic (or semi-mechanistic) PK/PD models, as well as quantitative systems pharmacology/toxicology (QSP/QST) models.
+`pysb-pkpd` is an add-on for the [PySB](https://pysb.org/) modeling framework that provides domain-specific macros and pre-constructed models for empirical and mechanistic PK/PD modeling. `pysb-pkpd` could also be used in conjuction with core PySB features to help build and execute quantitative systems pharmacology/toxicology (QSP/QST) models.
 
 ## Table of Contents
 
@@ -103,7 +103,7 @@ import pysb.pkpd as pkpd
 Model()
 
 # Add a Monomer for the drug:
-Monomer("Drug")
+pkpd.macros.drug_monomer(name='Drug')
 
 # Add the compartments for a two-compartment model:
 pkpd.macros.two_compartments(c1_name="CENTRAL",
@@ -145,6 +145,7 @@ The `pysb.pkpd.macros` module currently defines the following macros encoding PK
 
 PK functions:
 
+  * `drug_monomer` - adds a simple monomer species for the drug to the model. If the drug needs binding sites or other state variables then you should directly use the PySB `Monomer` class instead.
   * `one_compartment` - adds one compartment to the model for a one-comaprtment PK model. Alternatively, it could be used to add a new compartment to a multi-compartment model. 
   * `two_compartments` - adds two compartments to the model for a two-comaprtment PK model.
   * `three_compartments` - adds three compartments to the model for a three-compartment PK model.
