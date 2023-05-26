@@ -23,6 +23,7 @@
      4. [Preconstructed models](#preconstructed-models)
  5. [Contact](#contact)
  6. [Citing](#citing)  
+ 7. [Other Useful Tools](#other-useful-tools)
 
 ------
 
@@ -87,26 +88,26 @@ See: [CHANGELOG](CHANGELOG.md)
 
 # Documentation and Usage
 
-### Quick Overview
+## Quick Overview
 
-`pysb-pkpd` defines a set of domain specific macros for PK/PD modeling using the PySB framework, as well as some pre-constructed versions of two and three-compartment PK and PK/PD models. As with PySB, `pysb-pkpd` is meant to be used to programatically construct models in Python. 
+The key feature of `pysb-pkpd` is a set of domain specific PySB macros for PK/PD modeling that can be used to programatically construct models in Python via the PySB framework: 
 
 ### Example
 
 Building a two-compartment PK model with a sigmoidal Emax PD function:
 
 ```python
-from pysb import Model, Monomer
+from pysb import Model
 import pysb.pkpd as pkpd
 
 # Initialize the PySB model:
 Model()
 
 # Add a Monomer for the drug:
-pkpd.macros.drug_monomer(name='Drug')
+pkpd.drug_monomer(name='Drug')
 
 # Add the compartments for a two-compartment model:
-pkpd.macros.two_compartments(c1_name="CENTRAL",
+pkpd.two_compartments(c1_name="CENTRAL",
                              c1_size=2.0,
                              c2_name="PERIPHERAL",
                              c2_size=1.0)
@@ -120,22 +121,22 @@ pkpd.macros.two_compartments(c1_name="CENTRAL",
 #     as: 
 #         [Drug]_0 = dose / V_CENTRAL , 
 #     where V_CENTRAL is the size (i.e., volume) of the central compartment.
-pkpd.macros.dose_bolus(Drug, CENTRAL, dose=100.)
+pkpd.dose_bolus(Drug, CENTRAL, dose=100.)
 
 # Add (1st order) distribution and re-distribution between the 
 # central and peripheral compartments:
 #    Note that klist is [k_distribute, k_redistribute]
-pkpd.macros.distribute(Drug, CENTRAL, PERIPHERAL, klist=[1.0, 1e-1])
+pkpd.distribute(Drug, CENTRAL, PERIPHERAL, klist=[1.0, 1e-1])
 
 # Include linear elimination of Drug from the central compartment 
 # by processes like metabolism and renal excretion.
-pkpd.macros.eliminate(Drug, CENTRAL, kel=1e-2)
+pkpd.eliminate(Drug, CENTRAL, kel=1e-2)
 
 # Add the sigmoidal Emax PD function for Drug in the
 # central compartment:
-pkpd.macros.sigmoidal_emax(Drug, CENTRAL, emax=1.,
-                                          ec50=10.,
-                                          n=1.7)
+pkpd.sigmoidal_emax(Drug, CENTRAL, emax=1.,
+                                   ec50=10.,
+                                   n=1.7)
                
 ```
 
@@ -169,7 +170,7 @@ Dosing functions:
 
 ### Preconstructed models
 
-In addition to the macros module, `pysb-pkpd` includes some pre-constructed two-compartment and three-compartment models. 
+Another feature of `pysb-pkpd` are a limited set of pre-constructed two-compartment and three-compartment models which can be used for empirical fitting of PK data or as base models for more complex semi-mechanistic PK/PD mdoels. 
 
 #### PK/PD models
 
@@ -185,6 +186,7 @@ Two-compartment and three-compartment PK models:
 from pysb.pkpd.pk_models import twocomp, threecomp
 ```
 
+
 ------
 
 # Contact
@@ -197,3 +199,21 @@ report any problems/bugs or make any comments, suggestions, or feature requests.
 # Citing
 
 If this package is useful in your work, please cite this GitHub repo: https://github.com/blakeaw/pysb-pkpd
+
+-----
+
+# Other Useful Tools
+
+## Parameter estimation
+
+Please see packages such as [simplePSO](https://github.com/LoLab-MSM/simplePSO), [PyDREAM](https://github.com/LoLab-MSM/PyDREAM), [Gleipnir](https://github.com/LoLab-MSM/Gleipnir), or [GAlibrate](https://github.com/blakeaw/GAlibrate) for tools to do PySB model parameter estimation using stochastic optimization or Bayesian Monte Carlo approaches.
+
+## PD response models
+
+If you want to separately fit response data independetly of PK data, then the [pharmacodynamic-response-models](https://github.com/NTBEL/pharmacodynamic-response-models) package may also be useful.  
+
+## PySB model visualization
+
+[pyvipr](https://github.com/LoLab-MSM/pyvipr) can bu used for static and dynamic PySB model visualizations.
+
+-----
