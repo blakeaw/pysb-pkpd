@@ -14,7 +14,7 @@ __all__ = [
     "transfer",
     "emax",
     "sigmoidal_emax",
-    "linear_effect"
+    "linear_effect",
     "dose_bolus",
     "dose_infusion",
     "dose_absorbed",
