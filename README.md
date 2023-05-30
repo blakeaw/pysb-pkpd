@@ -158,9 +158,9 @@ PK functions:
 
 PD functions:
 
-  * `emax` - Adds an Emax model expression for the specified drug/species in a given compartment.
-  * `sigmoidal_emax` - Adds a sigmoidal Emax model expression for the specified drug/species in a given compartment.
-  * `linear_effect` - Adds a linear effect model expression for the specified drug/specis in a given compartment.
+  * `emax` - Adds an Emax model expression for the specified drug/species in a given compartment. Generates a PySB Expression with name: 'Emax_expr_DrugName_CompartmentName'
+  * `sigmoidal_emax` - Adds a sigmoidal Emax model expression for the specified drug/species in a given compartment. Generates a PySB Expression with name: 'Emax_expr_DrugName_CompartmentName'
+  * `linear_effect` - Adds a linear effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'LinearEffect_expr_DrugName_CompartmentName'
 
 Dosing functions:
 
@@ -214,6 +214,6 @@ If you want to separately fit response data independetly of PK data, then the [p
 
 ## PySB model visualization
 
-[pyvipr](https://github.com/LoLab-MSM/pyvipr) can bu used for static and dynamic PySB model visualizations.
+[pyvipr](https://github.com/LoLab-MSM/pyvipr) can be used for static and dynamic PySB model visualizations.
 
 -----
