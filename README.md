@@ -140,6 +140,10 @@ pkpd.sigmoidal_emax(Drug, CENTRAL, emax=1.,
                
 ```
 
+### PKRO Example
+
+See [this notebook](example-notebooks/1_simple-PKRO.ipynb) for another example using PySB with the `psyb-pkpd` add-on to build a simple semi-mechanistic pharmacokinetic and receptor occupancy (PKRO) model. 
+
 ### List of macros
 
 The `pysb.pkpd.macros` module currently defines the following macros encoding PK, PD, and dosing functions:
