@@ -1135,6 +1135,9 @@ def dose_absorbed(species, compartment, dose, ka, f):
         return "_".join([monomer_name, comp_name])
     
     species = _check_for_monomer(species, compartment)
+    precursor_name = "{}_{}_precursor".format(monomer_name, comp_name)
+    precursor = Monomer(precursor_name)
+    monomers = ComponentSet([precursor])
     params_created = ComponentSet()
     Dose = dose
     Vcomp = compartment.size
@@ -1152,13 +1155,13 @@ def dose_absorbed(species, compartment, dose, ka, f):
     if not isinstance(f, Parameter):
         F = Parameter("F_{0}_{1}".format(monomer_name, comp_name), f)
         params_created.add(F)
-    obs_expr = Observable(
-        "_obs_ka_expr_{0}_{1}".format(monomer_name, comp_name), species
-    )             
-    rate_expr = Expression("expr_{0}_{1}_absorb_rate".format(monomer_name, comp_name), (dose_expr - obs_expr) * (F * ka_param) / Vcomp)
-    params_created.add(rate_expr)
+    pre_0_expr = Expression('precursor_0', (dose_expr * F))
+    init_pre = Initial(precursor()**compartment, pre_0_expr)
+    #components.add(init_pre)           
+    #rate_expr = Expression("expr_{0}_{1}_absorb_rate".format(monomer_name, comp_name), (dose_expr - obs_expr) * (F * ka_param) / Vcomp)
+    #params_created.add(rate_expr)
 
-    components = pysb.macros._macro_rule('absorb', None >> species, [rate_expr], ['ka'],
+    components = pysb.macros._macro_rule('absorb', precursor()**compartment >> species, [ka], ['ka'],
                     name_func=absorb_name_func)
-
-    return components | params_created
+    
+    return components | params_created | monomers
