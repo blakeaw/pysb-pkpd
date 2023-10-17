@@ -6,7 +6,7 @@ from setuptools import find_namespace_packages
 
 setuptools.setup(
     name="pysb-pkpd",
-    version="0.2.0",
+    version="0.2.1",
     python_requires=">=3.8",
     install_requires=["pysb>=1.15.0"],
     extras_require={"cython": "cython>=0.29.25"},

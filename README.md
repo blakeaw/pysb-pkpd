@@ -3,10 +3,10 @@
 ![Python version badge](https://img.shields.io/badge/python-3.11.3-blue.svg)
 [![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
-![version](https://img.shields.io/badge/version-0.2.0-orange.svg)
-[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.2.0)
+![version](https://img.shields.io/badge/version-0.2.1-orange.svg)
+[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.2.1)
 
-`pysb-pkpd` is an add-on for the [PySB](https://pysb.org/) modeling framework that provides domain-specific macros and pre-constructed models for empirical and mechanistic PK/PD modeling. `pysb-pkpd` could also be used in conjuction with core PySB features to help build and execute quantitative systems pharmacology/toxicology (QSP/QST) models.
+`pysb-pkpd` is an add-on for the [PySB](https://pysb.org/) modeling framework that provides domain-specific macros and pre-constructed models for compartmental and mechanistic PK/PD modeling. `pysb-pkpd` could also be used in conjuction with core PySB features to help build and execute quantitative systems pharmacology/toxicology (QSP/QST) models.
 
 ## Table of Contents
 
@@ -43,27 +43,27 @@ Note that `pysb-pkpd` has the following core dependencies:
 
 ### pip install
 
-You can install `pysb-pkpd` version 0.2.0 with `pip` sourced from the GitHub repo:
+You can install `pysb-pkpd` version 0.2.1 with `pip` sourced from the GitHub repo:
 
 ##### with git installed:
 
 Fresh install:
 ```
-pip install git+https://github.com/blakeaw/pysb-pkpd@v0.2.0
+pip install git+https://github.com/blakeaw/pysb-pkpd@v0.2.1
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.2.0
+pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.2.1
 ```
 ##### without git installed:
 
 Fresh install:
 ```
-pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.0.zip
+pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.1.zip
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.0.zip
+pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.1.zip
 ```
 ### Manual install
 

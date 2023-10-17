@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.1] - 2023-10-17
+
+### Fixed
+- Updated the mechanism for the `dose_absorbed` dosing macro function to use a precursor; Fix for Issue https://github.com/blakeaw/pysb-pkpd/issues/4
+
 ## [0.2.0] - 2023-05-23
 
 ### Added
