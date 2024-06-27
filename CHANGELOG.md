@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.0] - 2024-06-26
 
 ### Added
-- 
+- New PD macro `fixed_effect` encoding a fixed-effect model for the effect/response. Issue https://github.com/blakeaw/pysb-pkpd/issues/7
 
 ### Changed
 - Replaced the `setup.py` script with a `pyproject.toml`; Issue https://github.com/blakeaw/pysb-pkpd/issues/13

@@ -1,6 +1,7 @@
 from pysb import Monomer, Parameter, Expression, Observable, Compartment, Initial
 from pysb.core import ComponentSet, as_complex_pattern, MonomerPattern, ComplexPattern
 import pysb.macros
+from sympy import Piecewise
 
 __all__ = [
     "drug_monomer",
@@ -15,6 +16,7 @@ __all__ = [
     "emax",
     "sigmoidal_emax",
     "linear_effect",
+    "fixed_effect",
     "dose_bolus",
     "dose_infusion",
     "dose_absorbed",
@@ -893,6 +895,98 @@ def linear_effect(species, compartment, slope):
     expr = Expression(
         "LinearEffect_expr_{0}_{1}".format(monomer_name, comp_name),
         M * obs_expr,
+    )
+    expr_components = ComponentSet([obs_expr, expr])
+
+    return expr_components | params_created
+
+def fixed_effect(species, compartment, e_fixed, c_threshold):
+    """
+    Generate an expression for Fixed-effect model with species in a compartment:
+        effect = E_fixed , [species ** compartment] > c_threshold
+        effect = 0 , [species ** compartment] < c_threshold
+
+    Note that `species` is not required to be "concrete".
+
+    Parameters
+    ----------
+    species : Monomer, MonomerPattern or ComplexPattern
+        The species/drug whose effect is being measured. If a Monomer, sites are considered
+        as unbound and in their default state. If a pattern, must be
+        concrete.
+    compartment : Compartment
+        The compartment for which the effect is being measured.
+    e_fixed : Parameter or number
+        The fixed-effect value. If a 
+        Parameter is passed, it will be used directly in the generated Rule.
+        If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+    c_threshold : Parameter or number
+        The threshold concentration for the fixed-effect. If a 
+        Parameter is passed, it will be used directly in the generated Rule.
+        If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains the Linear expression, a corresponding 
+        observable for the species concentration, and optionally a
+        Parameter if slope was given as a number.
+
+    Examples
+    --------
+    Fixed-effect for Drug in the Central compartment::
+
+        Model()
+        Compartment('Central')
+        Monomer('Drug')
+        fixed_effect(Drug, Central, 2.3, 10.0)
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment('CENTRAL', size=30.)
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
+        >>> fixed_effect(Drug, CENTRAL, 2.3, 10.0) # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Observable('_obs_fixedeffect_expr_Drug_Central', Drug() ** Central),
+         Expression('FixedEffect_expr_Drug_Central', Piecewise((Efixed_Drug_Central, _obs_fixedeffect_expr_Drug_Central > Cthreshold_Drug_Central), (0, True))),
+         Parameter('Efixed_Drug_Central', 2.3),
+         Parameter('Cthreshold_Drug_Central', 10.0),
+        ])
+        
+    """
+
+    if isinstance(species, Monomer):
+        monomer_name = species.name
+    else:
+        monomer_name = species.monomer.name
+    comp_name = compartment.name
+
+    species = _check_for_monomer(species, compartment)
+    params_created = ComponentSet()
+    E_fixed = e_fixed
+    if not isinstance(e_fixed, Parameter):
+        E_fixed = Parameter("Efixed_{0}_{1}".format(monomer_name, comp_name), e_fixed)
+        params_created.add(E_fixed)
+    C_threshold = c_threshold
+    if not isinstance(c_threshold, Parameter):
+        C_threshold = Parameter("Cthreshold_{0}_{1}".format(monomer_name, comp_name), C_threshold)
+        params_created.add(C_threshold)    
+    obs_expr = Observable(
+        "_obs_fixedeffect_expr_{0}_{1}".format(monomer_name, comp_name), species
+    )
+    expr = Expression(
+        "FixedEffect_expr_{0}_{1}".format(monomer_name, comp_name),
+         Piecewise((E_fixed, obs_expr > C_threshold), (0, True)),
     )
     expr_components = ComponentSet([obs_expr, expr])
 
