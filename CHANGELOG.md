@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.0] - 2024-06-26
+
+### Added
+- 
+
+### Changed
+- Replaced the `setup.py` script with a `pyproject.toml`; Issue https://github.com/blakeaw/pysb-pkpd/issues/13
+
+
 ## [0.2.1] - 2023-10-17
 
 ### Fixed
