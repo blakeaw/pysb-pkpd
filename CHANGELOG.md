@@ -8,10 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - New PD macro `fixed_effect` encoding a fixed-effect model for the effect/response. Issue https://github.com/blakeaw/pysb-pkpd/issues/7
+- `intercept` argument for the `linear_effect` PD model which allows users to set the y-intercept of the linear model. Issue https://github.com/blakeaw/pysb-pkpd/issues/9
 
 ### Changed
 - Replaced the `setup.py` script with a `pyproject.toml`; Issue https://github.com/blakeaw/pysb-pkpd/issues/13
-
+- `linear_effect` PD macro: updated the parameter names to prefix them with `LinEffect_` to make sure they are unique.
 
 ## [0.2.1] - 2023-10-17
 

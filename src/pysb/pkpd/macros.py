@@ -821,10 +821,10 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
 
     return expr_components | params_created
 
-def linear_effect(species, compartment, slope):
+def linear_effect(species, compartment, slope, intercept=0.):
     """
     Generate an expression for linear model for effect of species in a compartment:
-        effect = slope * [species ** compartment] 
+        effect = slope * [species ** compartment]  + intercept
 
     Note that `species` is not required to be "concrete".
 
@@ -843,6 +843,13 @@ def linear_effect(species, compartment, slope):
         with an automatically generated name based on the names and site states
         of the components of `species` and this parameter will be included at
         the end of the returned component list.
+    slope : Parameter or number
+        The y-intercept in the linear relationship. If a 
+        Parameter is passed, it will be used directly in the generated Rule.
+        If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.    
 
     Returns
     -------
@@ -858,7 +865,7 @@ def linear_effect(species, compartment, slope):
         Model()
         Compartment('Central')
         Monomer('Drug')
-        linear_effect(Drug, Central, 0.35)
+        linear_effect(Drug, Central, 0.35, intercept=0.1)
 
     Execution::
 
@@ -870,9 +877,10 @@ def linear_effect(species, compartment, slope):
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
         >>> linear_effect(Drug, CENTRAL, 0.35) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
-         Observable('_obs_lineffect_expr_Drug_CENTRAL', Drug() ** CENTRAL),
-         Expression('LinearEffect_expr_Drug_CENTRAL', _obs_lineffect_expr_Drug_CENTRAL*Slope_Drug_CENTRAL),
-         Parameter('Slope_Drug_CENTRAL', 0.35),
+         Observable('_obs_lineffect_expr_Drug_Central', Drug() ** Central),
+         Expression('LinearEffect_expr_Drug_Central', _obs_lineffect_expr_Drug_Central*LinEffect_Slope_Drug_Central + LinEffect_Intercept_Drug_Central),
+         Parameter('LinEffect_Slope_Drug_Central', 0.35),
+         Parameter('LinEffect_Intercept_Drug_Central', 0.1),
         ])
         
     """
@@ -887,14 +895,18 @@ def linear_effect(species, compartment, slope):
     params_created = ComponentSet()
     M = slope
     if not isinstance(slope, Parameter):
-        M = Parameter("Slope_{0}_{1}".format(monomer_name, comp_name), slope)
+        M = Parameter("LinEffect_Slope_{0}_{1}".format(monomer_name, comp_name), slope)
         params_created.add(M)
+    B = intercept    
+    if not isinstance(intercept, Parameter):
+        B = Parameter("LinEffect_Intercept_{0}_{1}".format(monomer_name, comp_name), intercept)
+        params_created.add(B)    
     obs_expr = Observable(
         "_obs_lineffect_expr_{0}_{1}".format(monomer_name, comp_name), species
     )
     expr = Expression(
         "LinearEffect_expr_{0}_{1}".format(monomer_name, comp_name),
-        M * obs_expr,
+        M * obs_expr + B,
     )
     expr_components = ComponentSet([obs_expr, expr])
 
