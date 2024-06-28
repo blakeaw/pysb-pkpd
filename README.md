@@ -165,6 +165,7 @@ PD functions:
   * `emax` - Adds an Emax model expression for the specified drug/species in a given compartment. Generates a PySB Expression with name: 'Emax_expr_DrugName_CompartmentName'
   * `sigmoidal_emax` - Adds a sigmoidal Emax model expression for the specified drug/species in a given compartment. Generates a PySB Expression with name: 'Emax_expr_DrugName_CompartmentName'
   * `linear_effect` - Adds a linear effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'LinearEffect_expr_DrugName_CompartmentName'
+  * `loglinear_effect` - Adds a log-linear effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'LogLinearEffect_expr_DrugName_CompartmentName'
   * `fixed_effect` - Adds a fixed-effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'FixedEffect_expr_DrugName_CompartmentName'
 
 Dosing functions:

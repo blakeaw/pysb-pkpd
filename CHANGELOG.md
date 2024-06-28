@@ -4,11 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.3.0] - 2024-06-26
+## [0.3.0] - 2024-06-28
 
 ### Added
 - New PD macro `fixed_effect` encoding a fixed-effect model for the effect/response. Issue https://github.com/blakeaw/pysb-pkpd/issues/7
 - `intercept` argument for the `linear_effect` PD model which allows users to set the y-intercept of the linear model. Issue https://github.com/blakeaw/pysb-pkpd/issues/9
+- New PD macro `loglinear_effect` encoding a log-linear model for the effect/response as a function of concentration. Issue https://github.com/blakeaw/pysb-pkpd/issues/8
 
 ### Changed
 - Replaced the `setup.py` script with a `pyproject.toml`; Issue https://github.com/blakeaw/pysb-pkpd/issues/13

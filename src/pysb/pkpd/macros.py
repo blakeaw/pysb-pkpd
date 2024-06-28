@@ -1,6 +1,7 @@
 from pysb import Monomer, Parameter, Expression, Observable, Compartment, Initial
 from pysb.core import ComponentSet, as_complex_pattern, MonomerPattern, ComplexPattern
 import pysb.macros
+import sympy
 from sympy import Piecewise
 
 __all__ = [
@@ -16,6 +17,7 @@ __all__ = [
     "emax",
     "sigmoidal_emax",
     "linear_effect",
+    "loglinear_effect",
     "fixed_effect",
     "dose_bolus",
     "dose_infusion",
@@ -875,7 +877,7 @@ def linear_effect(species, compartment, slope, intercept=0.):
         Monomer('Drug')
         >>> Compartment('CENTRAL', size=30.)
         Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
-        >>> linear_effect(Drug, CENTRAL, 0.35) # doctest:+NORMALIZE_WHITESPACE
+        >>> linear_effect(Drug, CENTRAL, 0.35, intercept=0.1) # doctest:+NORMALIZE_WHITESPACE
         ComponentSet([
          Observable('_obs_lineffect_expr_Drug_Central', Drug() ** Central),
          Expression('LinearEffect_expr_Drug_Central', _obs_lineffect_expr_Drug_Central*LinEffect_Slope_Drug_Central + LinEffect_Intercept_Drug_Central),
@@ -908,6 +910,106 @@ def linear_effect(species, compartment, slope, intercept=0.):
         "LinearEffect_expr_{0}_{1}".format(monomer_name, comp_name),
         M * obs_expr + B,
     )
+    expr_components = ComponentSet([obs_expr, expr])
+
+    return expr_components | params_created
+
+def loglinear_effect(species, compartment, slope, intercept=0., base=None):
+    """
+    Generate an expression for log-linear model for effect of species in a compartment:
+        effect = slope * log([species ** compartment])  + intercept
+
+    Note that `species` is not required to be "concrete".
+
+    Parameters
+    ----------
+    species : Monomer, MonomerPattern or ComplexPattern
+        The species/drug whose effect is being measured. If a Monomer, sites are considered
+        as unbound and in their default state. If a pattern, must be
+        concrete.
+    compartment : Compartment
+        The compartment for which the effect is being measured.
+    slope : Parameter or number
+        The proportinality factor or slope in the linear relationship. If a 
+        Parameter is passed, it will be used directly in the generated Rule.
+        If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+    slope : Parameter or number - Defaults to 0
+        The y-intercept in the linear relationship. If a 
+        Parameter is passed, it will be used directly in the generated Rule.
+        If a number is passed, a Parameter will be created
+        with an automatically generated name based on the names and site states
+        of the components of `species` and this parameter will be included at
+        the end of the returned component list.
+    base : int, float, or None
+        The base of the logarithm. Defaults to None. If None, the log function
+        defaults to the natural logarithm.     
+
+    Returns
+    -------
+    components : ComponentSet
+        The generated components. Contains the Linear expression, a corresponding 
+        observable for the species concentration, and optionally a
+        Parameter if slope was given as a number.
+
+    Examples
+    --------
+    Log-linear effect for Drug in the Central compartment::
+
+        Model()
+        Compartment('Central')
+        Monomer('Drug')
+        loglinear_effect(Drug, Central, 0.35, intercept=0.1)
+
+    Execution::
+
+        >>> Model() # doctest:+ELLIPSIS
+        <Model '_interactive_' ...>
+        >>> Monomer('Drug')
+        Monomer('Drug')
+        >>> Compartment('CENTRAL', size=30.)
+        Compartment(name='CENTRAL', parent=None, dimension=3, size=30.)
+        >>> loglinear_effect(Drug, CENTRAL, 0.35, intercept=0.1) # doctest:+NORMALIZE_WHITESPACE
+        ComponentSet([
+         Observable('_obs_loglinearffect_expr_Drug_Central', Drug() ** Central),
+         Expression('LogLinearEffect_expr_Drug_Central', LogLinEffect_Intercept_Drug_Central + LogLinEffect_Slope_Drug_Central*log(_obs_loglinearffect_expr_Drug_Central)),
+         Parameter('LogLinEffect_Slope_Drug_Central', 0.35),
+         Parameter('LogLinEffect_Intercept_Drug_Central', 0.1),
+         ])
+        
+    """
+
+    if isinstance(species, Monomer):
+        monomer_name = species.name
+    else:
+        monomer_name = species.monomer.name
+    comp_name = compartment.name
+
+    species = _check_for_monomer(species, compartment)
+    params_created = ComponentSet()
+    M = slope
+    if not isinstance(slope, Parameter):
+        M = Parameter("LogLinEffect_Slope_{0}_{1}".format(monomer_name, comp_name), slope)
+        params_created.add(M)
+    B = intercept    
+    if not isinstance(intercept, Parameter):
+        B = Parameter("LogLinEffect_Intercept_{0}_{1}".format(monomer_name, comp_name), intercept)
+        params_created.add(B)    
+    obs_expr = Observable(
+        "_obs_loglinearffect_expr_{0}_{1}".format(monomer_name, comp_name), species
+    )
+    if base is None:
+        expr = Expression(
+            "LogLinearEffect_expr_{0}_{1}".format(monomer_name, comp_name),
+            M * sympy.log(obs_expr) + B,
+        )
+    else:
+        expr = Expression(
+            "LogLinearEffect_expr_{0}_{1}".format(monomer_name, comp_name),
+            M * sympy.log(obs_expr, base) + B,
+        )
     expr_components = ComponentSet([obs_expr, expr])
 
     return expr_components | params_created
