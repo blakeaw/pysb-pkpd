@@ -14,7 +14,6 @@ authors:
     email: blakeawilson.phd@gmail.com
     orcid: 'https://orcid.org/0000-0002-8269-2500'
 repository-code: 'https://github.com/blakeaw/pysb-pkpd'
-repository-code: 'https://github.com/Borealis-BioModeling/pysb-pkpd'
 abstract: >-
   PySB add-on providing domain-specific macros and models
   for empirical and mechanistic PK/PD modeling. 
