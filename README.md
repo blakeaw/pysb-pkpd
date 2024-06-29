@@ -202,9 +202,12 @@ report any problems/bugs or make any comments, suggestions, or feature requests.
 
 ------
 
-# Citing
+# Supporting
 
-If this package is useful in your work, please cite this GitHub repo: https://github.com/blakeaw/pysb-pkpd
+I'm very happy that you've chosen to use __pysb-pkpd__. This add-on is a project that I develop and maintain on my own time, independently of the core PySB library, and without external funding. If you've found it helpful, here are a couple of ways you can support its ongoing development:
+
+* **Donations**: Even small contributions through my Ko-fi page, [ko-fi.com/blakeaw](https://ko-fi.com/blakeaw), can make a big difference. Every little bit can help me continue developing this and other open-source projects, and I truly appreciate your support!
+* **Citing**: Citing or mentioning this software in your work, publications, or projects is another valuable way to support it. It helps spread the word and acknowledges the effort put into its development, which is greatly appreciated!
 
 -----
 
