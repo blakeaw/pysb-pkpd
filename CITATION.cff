@@ -1,0 +1,23 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: pysb-pkpd
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Wilson
+    family-names: Blake
+    name-suffix: Ph.D.
+    email: blakeawilson.phd@gmail.com
+    orcid: 'https://orcid.org/0000-0002-8269-2500'
+repository-code: 'https://github.com/blakeaw/pysb-pkpd'
+repository-code: 'https://github.com/Borealis-BioModeling/pysb-pkpd'
+abstract: >-
+  PySB add-on providing domain-specific macros and models
+  for empirical and mechanistic PK/PD modeling. 
+license: BSD-2-Clause
+version: 0.3.0
+date-released: '2024-06-29'
