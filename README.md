@@ -26,7 +26,7 @@ __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and 
      4. [Simulating models](#simulating-models)
      5. [Preconstructed models](#preconstructed-models)
  5. [Contact](#contact)
- 6. [Citing](#citing)  
+ 6. [Supporting](#supporting)  
  7. [Other Useful Tools](#other-useful-tools)
 
 ------
@@ -223,8 +223,10 @@ from pysb.pkpd.pk_models import twocomp, threecomp
 
 # Contact
 
-Please open a [GitHub Issue](https://github.com/blakeaw/pysb-pkpd/issues) to
-report any problems/bugs or make any comments, suggestions, or feature requests.
+ * **Issues** :bug: : Please open a [GitHub Issue](https://github.com/blakeaw/pysb-pkpd/issues) to
+report any problems/bugs with the code or its execution, or to make any feature requests.
+
+ * **Discussions** :grey_question: : If you have questions, suggestions, or want to discuss anything else related to the project, feel free to use the [pysb-pkpd Discussions](https://github.com/blakeaw/pysb-pkpd/discussions) board.
 
 ------
 
