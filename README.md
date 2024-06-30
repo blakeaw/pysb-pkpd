@@ -6,7 +6,8 @@
 ![version](https://img.shields.io/badge/version-0.2.1-orange.svg)
 [![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.2.1)
 
-`pysb-pkpd` is an add-on for the [PySB](https://pysb.org/) modeling framework that provides domain-specific macros and pre-constructed models for compartmental and mechanistic PK/PD modeling. `pysb-pkpd` could also be used in conjuction with core PySB features to help build and execute quantitative systems pharmacology/toxicology (QSP/QST) models.
+
+__`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and QSP models in Python using the PySB modeling framework.__ 
 
 ## Table of Contents
 
@@ -20,7 +21,8 @@
      1. [Quick Overview](#quick-overview)
      2. [Example](#example)
      3. [List of macros](#list-of-macros)
-     4. [Preconstructed models](#preconstructed-models)
+     4. [Simulating models](#simulating-models)
+     5. [Preconstructed models](#preconstructed-models)
  5. [Contact](#contact)
  6. [Citing](#citing)  
  7. [Other Useful Tools](#other-useful-tools)
@@ -90,7 +92,11 @@ See: [CHANGELOG](CHANGELOG.md)
 
 ## Quick Overview
 
-The key feature of `pysb-pkpd` is a set of domain specific PySB macros for PK/PD modeling that can be used to programatically construct models in Python via the PySB framework: 
+**pysb-pkpd** is an add-on for the [PySB](https://pysb.org/) modeling framework. Its key feature is a set of domain-specific PySB macros that facilitate the efficient and descriptive programmatic construction of PK/PD models in Python using the PySB framework. It also provides a limited set of pre-constructed one-, two-, and three-compartment PK and PK/PD models.
+
+Additional details, such as examples and the list of available macros, can be found in the subsequent subsections of this README. 
+
+You can also check out my blog post, [Modeling Drug Dynamics using Programmatic PK/PD Models in Python: An Introduction to PK/PD Modeling using PySB and pysb-pkpd](https://blakeaw.github.io/2023-10-23-pysb-pkpd/), for an introduction to PK/PD modeling concepts and additional illustrative case studies of building PK/PD models with `pysb` and `pysb-pkpd`. 
 
 ### Example
 
@@ -174,6 +180,24 @@ Dosing functions:
   * `dose_infusion` - adds a continous (zero-order) infusion of the specified drug/species; e.g., to model continuous IV infusion. 
   * `dose_absorbed` - adds a dose of the specified drug which is absorbed into the specified compartment via first-order kinetics, including a bioavailibity factor; e.g., to model oral dosing or a subcutaneous depot. 
 
+### Simulating models
+
+`pysb-pkpd` provides a `simulate` function that can be used to easily 
+execute a simulation of your PK/PD model as below:
+
+```python
+import numpy as np
+import pysb.pkpd as pkpd
+from my_pkpd_model import model
+
+# Simulate the PKPD/PySB model.
+## Set the timespan for the simulation:
+tspan = np.arange(241) # 0-240 seconds at 1 second intervals
+## Execute the simulation:
+simulation_trajectory = pkpd.simulate(model, tspan)
+```
+
+
 ### Preconstructed models
 
 Another feature of `pysb-pkpd` are a limited set of pre-constructed two-compartment and three-compartment models which can be used for empirical fitting of PK data or as base models for more complex semi-mechanistic PK/PD mdoels. 
@@ -206,7 +230,7 @@ report any problems/bugs or make any comments, suggestions, or feature requests.
 
 I'm very happy that you've chosen to use __pysb-pkpd__. This add-on is a project that I develop and maintain on my own time, independently of the core PySB library, and without external funding. If you've found it helpful, here are a couple of ways you can support its ongoing development:
 
-* **Donations**: Even small contributions through my Ko-fi page, [ko-fi.com/blakeaw](https://ko-fi.com/blakeaw), can make a big difference. Every little bit can help me continue developing this and other open-source projects, and I truly appreciate your support!
+* **Sponsoring**: Even small contributions through my Ko-fi page, [ko-fi.com/blakeaw](https://ko-fi.com/blakeaw), can make a big difference. Every little bit can help me continue developing this and other open-source projects, and I truly appreciate your support!
 * **Citing**: Citing or mentioning this software in your work, publications, or projects is another valuable way to support it. It helps spread the word and acknowledges the effort put into its development, which is greatly appreciated!
 
 -----

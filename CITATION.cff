@@ -19,4 +19,20 @@ abstract: >-
   for empirical and mechanistic PK/PD modeling. 
 license: BSD-2-Clause
 version: 0.3.0
-date-released: '2024-06-29'
+date-released: '2024-06-30'
+references:
+  - authors:
+      - family-names: Lopez
+        given-names: Carlos F.
+      - family-names: Muhlich
+        given-names: Jeremy L.
+      - family-names: Bachman
+        given-names: John A.
+      - family-names: Sorger
+        given-names: Peter K.  
+    doi: 10.1038/msb.2013.1
+    journal: "Molecular Systems Biology"
+    title: "Programming biological models in Python using PySB"
+    type: article
+    volume: 9
+    year: 2013
