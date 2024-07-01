@@ -3,13 +3,22 @@
 ![Python version badge](https://img.shields.io/badge/python-3.11.3-blue.svg)
 [![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
-![version](https://img.shields.io/badge/version-0.2.1-orange.svg)
-[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.2.1)
+![version](https://img.shields.io/badge/version-0.3.0-orange.svg)
+[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.3.0)
 
 
 __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and QSP models in Python using the PySB modeling framework.__ 
 
   :pill: :computer:
+
+## What's new in
+
+**version 0.3.0**
+
+ * Macro encoding a Fixed-effect PD model: `fixed_effect`
+ * Macro encoding a Log-linear Effect PD model: `loglinear_effect`
+ * `simulate` function to simplify the process of simulating models.
+ * The macro encoding the Linear-effect PD model, `linear_effect`, has an optional `intercept` argument to allow users to set the y-intercept of the linear model.
 
 ## Table of Contents
 
@@ -47,27 +56,27 @@ Note that `pysb-pkpd` has the following core dependencies:
 
 ### pip install
 
-You can install `pysb-pkpd` version 0.2.1 with `pip` sourced from the GitHub repo:
+You can install `pysb-pkpd` version 0.3.0 with `pip` sourced from the GitHub repo:
 
 ##### with git installed:
 
 Fresh install:
 ```
-pip install git+https://github.com/blakeaw/pysb-pkpd@v0.2.1
+pip install git+https://github.com/blakeaw/pysb-pkpd@v0.3.0
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.2.1
+pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.3.0
 ```
 ##### without git installed:
 
 Fresh install:
 ```
-pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.1.zip
+pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.3.0.zip
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.2.1.zip
+pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.3.0.zip
 ```
 ### Manual install
 
