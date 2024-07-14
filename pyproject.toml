@@ -45,7 +45,7 @@ Changelog = "https://github.com/blakeaw/pysb-pkpd/blob/main/CHANGELOG.md"
 # Find namespace package
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["pysb.pkpd"]
+include = ["pysb.pkpd", "pysb.pkpd.models", "pysb.pkpd.pk_models"]
 namespaces = true
 
 # Set the dynamic version
