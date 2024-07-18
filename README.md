@@ -5,7 +5,7 @@
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
 ![version](https://img.shields.io/badge/version-0.3.2-orange.svg)
 [![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.3.2)
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12775536.svg)](https://doi.org/10.5281/zenodo.12775536)
 
 __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and QSP models in Python using the PySB modeling framework.__ 
 
