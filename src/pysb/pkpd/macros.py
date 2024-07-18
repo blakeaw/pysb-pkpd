@@ -1350,6 +1350,7 @@ def dose_absorbed(species, compartment, dose, ka, f):
     monomers = ComponentSet([precursor])
     params_created = ComponentSet()
     Dose = dose
+    F = f
     Vcomp = compartment.size
     if not isinstance(Dose, Parameter):
         Dose = Parameter("dose_{0}_{1}".format(monomer_name, comp_name), dose)
