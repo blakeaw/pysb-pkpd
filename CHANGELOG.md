@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.3.3] - 2024-07-21
+
+### Fixed
+
+- Fix for Issue https://github.com/blakeaw/pysb-pkpd/issues/20
+
 ## [0.3.2] - 2024-07-18
 
 ### Fixed

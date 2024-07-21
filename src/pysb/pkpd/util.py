@@ -37,7 +37,7 @@ def simulate(
         tspan=tspan,
         integrator="lsoda",
     )
-    simulation_result = simulation.run(
+    simulation_result = simulator.run(
         param_values=param_values, initials=initials, num_processors=nprocs
     )
     simulation_trajectory = simulation_result.all
