@@ -19,7 +19,7 @@ abstract: >-
   for empirical and mechanistic PK/PD modeling. 
 license: BSD-2-Clause
 version: 0.3.3
-doi: 10.5281/zenodo.12775536
+doi: 10.5281/zenodo.12775530
 date-released: '2024-07-21'
 references:
   - authors:
