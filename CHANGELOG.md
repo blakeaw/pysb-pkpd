@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.0] - 2025-01-30
+
+### Added
+
+- `CONTRIBUTING.md` file as per https://github.com/blakeaw/pysb-pkpd/issues/24
+- An initial suite of automated tests compatible with pytest and coverage. Issue https://github.com/blakeaw/pysb-pkpd/issues/23
+
+### Fixed
+
+- Error in the `dose_absorbed` macro which was causing an extra `ka` parameter to be added to the model.
+
 ## [0.3.3] - 2024-07-21
 
 ### Fixed
