@@ -1361,8 +1361,8 @@ def dose_absorbed(species, compartment, dose, ka, f):
         dose_expr = Expression("expr_{0}_{1}_dose".format(monomer_name, comp_name), Dose / Vcomp)
         params_created.add(dose_expr)
     if not isinstance(ka, Parameter):
-        ka_param = Parameter("ka_{0}_{1}".format(monomer_name, comp_name), ka)
-        params_created.add(ka_param)
+        ka = Parameter("ka_{0}_{1}".format(monomer_name, comp_name), ka)
+        params_created.add(ka)
     if not isinstance(f, Parameter):
         F = Parameter("F_{0}_{1}".format(monomer_name, comp_name), f)
         params_created.add(F)
