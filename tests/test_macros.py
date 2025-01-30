@@ -4,26 +4,6 @@ import numpy as np
 
 from pysb.pkpd.macros import *
 
-__all__ = [
-    "drug_monomer",
-    "one_compartment",
-    "two_compartments",
-    "three_compartments",
-    "eliminate",
-    "eliminate_mm",
-    "clearance",
-    "distribute",
-    "transfer",
-    "emax",
-    "sigmoidal_emax",
-    "linear_effect",
-    "loglinear_effect",
-    "fixed_effect",
-    "dose_bolus",
-    "dose_infusion",
-    "dose_absorbed",
-]
-
 
 @with_model
 def test_drug_monomer():
@@ -94,7 +74,9 @@ def base_components():
     drug_monomer()
     return
 
-#---- PK Macros ----
+
+# ---- PK Macros ----
+
 
 @with_model
 def test_eliminate():
@@ -141,82 +123,93 @@ def test_transfer():
     assert len(model.rules) == 1
     assert len(model.expressions) == 0
 
-#---- PD Macros ----
+
+# ---- PD Macros ----
+
 
 @with_model
 def test_emax():
     base_components()
-    emax(Drug, CENTRAL, emax=10., ec50=100.)
+    emax(Drug, CENTRAL, emax=10.0, ec50=100.0)
     assert len(model.parameters) == 3
     assert len(model.rules) == 0
     assert len(model.expressions) == 1
     assert len(model.observables) == 1
 
+
 @with_model
 def test_sigmoidal_emax():
     base_components()
-    sigmoidal_emax(Drug, CENTRAL, emax=10., ec50=100., n=2.)
+    sigmoidal_emax(Drug, CENTRAL, emax=10.0, ec50=100.0, n=2.0)
     assert len(model.parameters) == 4
     assert len(model.rules) == 0
     assert len(model.expressions) == 1
     assert len(model.observables) == 1
 
+
 @with_model
 def test_linear_effect():
     base_components()
-    linear_effect(Drug, CENTRAL, slope=0.1, intercept=1.)
+    linear_effect(Drug, CENTRAL, slope=0.1, intercept=1.0)
     assert len(model.parameters) == 3
     assert len(model.rules) == 0
     assert len(model.expressions) == 1
     assert len(model.observables) == 1
+
 
 @with_model
 def test_loglinear_effect():
     base_components()
-    loglinear_effect(Drug, CENTRAL, slope=0.1, intercept=1., base=2)
+    loglinear_effect(Drug, CENTRAL, slope=0.1, intercept=1.0, base=2)
     assert len(model.parameters) == 3
     assert len(model.rules) == 0
     assert len(model.expressions) == 1
     assert len(model.observables) == 1
+
 
 @with_model
 def test_fixed_effect():
     base_components()
-    fixed_effect(Drug, CENTRAL, e_fixed=1., c_threshold=24.6)
+    fixed_effect(Drug, CENTRAL, e_fixed=1.0, c_threshold=24.6)
     assert len(model.parameters) == 3
     assert len(model.rules) == 0
     assert len(model.expressions) == 1
     assert len(model.observables) == 1
 
-#---- Dose Macros ----
+
+# ---- Dose Macros ----
+
 
 @with_model
 def test_dose_bolus():
     base_components()
-    dose_bolus(Drug, CENTRAL, dose=100.)
+    dose_bolus(Drug, CENTRAL, dose=100.0)
     assert len(model.parameters) == 2
     assert len(model.rules) == 0
     assert len(model.expressions) == 1
     assert len(model.initials) == 1
 
+
 @with_model
 def test_dose_infusion():
     base_components()
-    dose_infusion(Drug, CENTRAL, dose=2.)
+    dose_infusion(Drug, CENTRAL, dose=2.0)
     assert len(model.parameters) == 2
     assert len(model.rules) == 1
     assert len(model.expressions) == 1
     assert len(model.initials) == 0
 
+
 @with_model
 def test_dose_absorbed():
     base_components()
-    dose_absorbed(Drug, CENTRAL, dose=10., ka=1e-1, f=0.78)
+    dose_absorbed(Drug, CENTRAL, dose=10.0, ka=1e-1, f=0.78)
     assert len(model.parameters) == 4
     assert len(model.rules) == 1
     assert len(model.expressions) == 2
     assert len(model.initials) == 1
     assert len(model.monomers) == 2
+
 
 if __name__ == "__main__":
     test_drug_monomer()
