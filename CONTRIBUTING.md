@@ -39,6 +39,12 @@ If you want to contribute code that fixes bugs or adds new features you can fork
 
 However, before doing so, please ask first. You can do so by commenting on the relevant Issue. This helps prevent duplicated or wasted efforts. 
 
+Note that for automated testing and coverage analysis requires the following:
+[pytest](https://docs.pytest.org/en/stable/getting-started.html), [Coverage.py](https://coverage.readthedocs.io/en/7.6.10/install.html), and [nose](https://nose.readthedocs.io/en/latest/).
+```
+pip install pytest coverage nose
+```
+
 PR contribution steps:
 
 1. [Fork the repo](https://github.com/blakeaw/pysb-pkpd/fork)

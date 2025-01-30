@@ -52,8 +52,18 @@ __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and 
 ### Dependencies
 
 Note that `pysb-pkpd` has the following core dependencies:
-   * [PySB](https://pysb.org/) - developed using PySB version 1.15.0
+   * [PySB](https://pysb.org/) - developed using PySB version 1.15.0, and recommended to install using conda/mamba.
+```
+conda install -c alubbock pysb
+```
 
+For automated testing and coverage analysis:
+   * [pytest](https://docs.pytest.org/en/stable/getting-started.html)
+   * [Coverage.py](https://coverage.readthedocs.io/en/7.6.10/install.html)
+   * [nose](https://nose.readthedocs.io/en/latest/)
+```
+pip install pytest coverage nose
+```
 
 ### pip install
 
