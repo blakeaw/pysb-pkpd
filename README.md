@@ -4,7 +4,7 @@
 [![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
 ![version](https://img.shields.io/badge/version-0.3.3-orange.svg)
-[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.3.3)
+[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.4.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12775536.svg)](https://doi.org/10.5281/zenodo.12775536)
 
 __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and QSP models in Python using the PySB modeling framework.__ 
@@ -73,21 +73,21 @@ You can install `pysb-pkpd` version 0.3.3 with `pip` sourced from the GitHub rep
 
 Fresh install:
 ```
-pip install git+https://github.com/blakeaw/pysb-pkpd@v0.3.3
+pip install git+https://github.com/blakeaw/pysb-pkpd@v0.4.0
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.3.3
+pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.4.0
 ```
 ##### without git installed:
 
 Fresh install:
 ```
-pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.3.3.zip
+pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.4.0.zip
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.3.3.zip
+pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.4.0.zip
 ```
 ### Manual install
 
