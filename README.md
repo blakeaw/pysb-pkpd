@@ -3,7 +3,7 @@
 ![Python version badge](https://img.shields.io/badge/python-3.11.3-blue.svg)
 [![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
-![version](https://img.shields.io/badge/version-0.3.3-orange.svg)
+![version](https://img.shields.io/badge/version-0.4.0-orange.svg)
 [![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.4.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12775536.svg)](https://doi.org/10.5281/zenodo.12775536)
 
@@ -12,6 +12,12 @@ __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and 
   :pill: :computer:
 
 ## What's new in
+
+**version 0.4.0**
+
+ * Test suite - [tests](./tests/)
+ * Contribution info/guidelines - [CONTRIBUTING](./CONTRIBUTING.md)
+ * Bug fix in the `dose_absorbed` macro.
 
 **version 0.3.0**
 
@@ -67,7 +73,7 @@ pip install pytest coverage nose
 
 ### pip install
 
-You can install `pysb-pkpd` version 0.3.3 with `pip` sourced from the GitHub repo:
+You can install `pysb-pkpd` version 0.4.0 with `pip` sourced from the GitHub repo:
 
 ##### with git installed:
 
