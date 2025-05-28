@@ -35,27 +35,36 @@ def one_compartment_model(
 ):
     """Generates a standard one-compartment PK/PD model.
 
-    Args:
-        dose_amount (float): The amount of drug in the dose.
-        dose_route (str, optional): The route of drug adminstration. Defaults to "iv-bolus".
-            Options: 'iv-bolus', 'iv-infusion', 'oral'.
-        dose_parameters (dict | None, optional): Additional special dose/route parameters. Only
-            required for the 'oral' route with parameters:
-                'ka' - 1st-order absorption rate constant.
-                'f' - bioavailibity fraction.
-        volume_distribution (float, optional): Volume of distribution; i.e., the volume of
-            the central compartment. Defaults to 1..
-        clearance (float, optional): Clearance rate of the drug (volume/time). Defaults to 0.5.
-        pd_model (dict | None, optional): Set the PD model and its paramters. Defaults to None.
-            Options:
-                'emax' - parameters: 'emax', 'ec50'
-                'sigmoidal-emax' - parameters: 'emax', 'ec50', 'n'
-                'linear' - parameters: 'slope', 'intercept'
-                'log-linear' - parameters: 'slope', 'intercept'
-                'fixed' - parameters: 'e_fixed', 'c_threshold'
+    Parameters
+    ----------
+    dose_amount : float
+        The amount of drug in the dose.
+    dose_route : str, optional
+        The route of drug adminstration. Default="iv-bolus".
+        Options: 'iv-bolus', 'iv-infusion', 'oral'.
+    dose_parameters : dict | None, optional
+        Additional special dose/route parameters. Only
+        required for the 'oral' route with parameters:
+        'ka' - 1st-order absorption rate constant.
+        'f' - bioavailibity fraction.
+    volume_distribution : float, optional
+        Volume of distribution; i.e., the volume of the central compartment.
+        Default=1..
+    clearance : float, optional
+        Clearance rate of the drug (volume/time). Default=0.5.
+    pd_model : dict | None, optional
+        Set the PD model and its paramters. Default=None.
+        Options:
+            'emax' - parameters: 'emax', 'ec50'
+            'sigmoidal-emax' - parameters: 'emax', 'ec50', 'n'
+            'linear' - parameters: 'slope', 'intercept'
+            'log-linear' - parameters: 'slope', 'intercept'
+            'fixed' - parameters: 'e_fixed', 'c_threshold'
 
-    Returns:
-        pysb.Model: The model.
+    Returns
+    -------
+    model: pysb.Model
+        The generated model.
 
     Examples
     --------
@@ -123,31 +132,43 @@ def two_compartment_model(
 ):
     """Generates a standard two-compartment PK/PD model.
 
-    Args:
-        dose_amount (float): The amount of drug in the dose.
-        dose_route (str, optional): The route of drug adminstration. Defaults to "iv-bolus".
-            Options: 'iv-bolus', 'iv-infusion', 'oral'.
-        dose_parameters (dict | None, optional): Additional special dose/route parameters. Only
-            required for the 'oral' route with parameters:
-                'ka' - 1st-order absorption rate constant.
-                'f' - bioavailibity fraction.
-        volume_central (float, optional): Volume of the central compartment. Defaults to 1..
-        volume_peripheral (float, optional): Volume of the peripheral compartment. Defaults to 1..
-        k12 (float, optional): The rate constant for distribution from the cental to peripheral
-            compartment. Defaults to 0.1.
-        k21 (float, optional): The rate constant for redistribution from the peripheral to central
-            compartment. Defaults to 0.01.
-        clearance (float, optional): Clearance rate of the drug (volume/time). Defaults to 0.5.
-        pd_model (dict | None, optional): Set the PD model and its paramters. Defaults to None.
-            Options:
-                'emax' - parameters: 'emax', 'ec50'
-                'sigmoidal-emax' - parameters: 'emax', 'ec50', 'n'
-                'linear' - parameters: 'slope', 'intercept'
-                'log-linear' - parameters: 'slope', 'intercept'
-                'fixed' - parameters: 'e_fixed', 'c_threshold'
+    Parameters
+    ----------
+    dose_amount : float
+        The amount of drug in the dose.
+    dose_route : str, optional
+        The route of drug adminstration. Default="iv-bolus".
+        Options: 'iv-bolus', 'iv-infusion', 'oral'.
+    dose_parameters : dict | None, optional
+        Additional special dose/route parameters. Only
+        required for the 'oral' route with parameters:
+            'ka' - 1st-order absorption rate constant.
+            'f' - bioavailibity fraction.
+    volume_central : float, optional
+        Volume of the central compartment. Default=1..
+    volume_peripheral : float, optional
+        Volume of the peripheral compartment. Default=1..
+    k12 : float, optional)
+        The rate constant for distribution from the cental to peripheral
+        compartment. Default=0.1.
+    k21 : float, optional
+        The rate constant for redistribution from the peripheral to central
+        compartment. Default=0.01.
+    clearance : float, optional
+        Clearance rate of the drug (volume/time). Default=0.5.
+    pd_model : dict | None, optional
+        Set the PD model and its paramters. Default=None.
+        Options:
+            'emax' - parameters: 'emax', 'ec50'
+            'sigmoidal-emax' - parameters: 'emax', 'ec50', 'n'
+            'linear' - parameters: 'slope', 'intercept'
+            'log-linear' - parameters: 'slope', 'intercept'
+            'fixed' - parameters: 'e_fixed', 'c_threshold'
 
-    Returns:
-        pysb.Model: The model.
+    Returns
+    -------
+    model : pysb.Model
+        The generated model.
 
     Examples
     --------
@@ -226,35 +247,49 @@ def three_compartment_model(
 ):
     """Generates a standard three-compartment PK/PD model.
 
-    Args:
-        dose_amount (float): The amount of drug in the dose.
-        dose_route (str, optional): The route of drug adminstration. Defaults to "iv-bolus".
-            Options: 'iv-bolus', 'iv-infusion', 'oral'.
-        dose_parameters (dict | None, optional): Additional special dose/route parameters. Only
-            required for the 'oral' route with parameters:
-                'ka' - 1st-order absorption rate constant.
-                'f' - bioavailibity fraction.
-        volume_central (float, optional): Volume of the central compartment. Defaults to 1..
-        volume_peripheral (float, optional): Volume of the peripheral compartment. Defaults to 1..
-        k12 (float, optional): The rate constant for distribution from the cental to peripheral
-            compartment. Defaults to 0.1.
-        k21 (float, optional): The rate constant for redistribution from the peripheral to central
-            compartment. Defaults to 0.01.
-        k13 (float, optional): The rate constant for distribution from the cental to deep peripheral
-            compartment. Defaults to 0.001.
-        k31 (float, optional): The rate constant for redistribution from the deep peripheral to central
-            compartment. Defaults to 0.0001.
-        clearance (float, optional): Clearance rate of the drug (volume/time). Defaults to 0.5.
-        pd_model (dict | None, optional): Set the PD model and its paramters. Defaults to None.
-            Options:
-                'emax' - parameters: 'emax', 'ec50'
-                'sigmoidal-emax' - parameters: 'emax', 'ec50', 'n'
-                'linear' - parameters: 'slope', 'intercept'
-                'log-linear' - parameters: 'slope', 'intercept'
-                'fixed' - parameters: 'e_fixed', 'c_threshold'
+    Parameters
+    ----------
+    dose_amount : float
+        The amount of drug in the dose.
+    dose_route : str, optional
+        The route of drug adminstration. Default="iv-bolus".
+        Options: 'iv-bolus', 'iv-infusion', 'oral'.
+    dose_parameters : dict | None, optional
+        Additional special dose/route parameters. Only
+        required for the 'oral' route with parameters:
+            'ka' - 1st-order absorption rate constant.
+            'f' - bioavailibity fraction.
+    volume_central : float, optional
+        Volume of the central compartment. Default=1..
+    volume_peripheral : float, optional
+        Volume of the peripheral compartment. Default=1..
+    k12 : float, optional
+        The rate constant for distribution from the cental to peripheral
+        compartment. Default=0.1.
+    k21 : float, optional
+        The rate constant for redistribution from the peripheral to central
+        compartment. Default=0.01.
+    k13 : float, optional
+        The rate constant for distribution from the cental to deep peripheral
+        compartment. Default=0.001.
+    k31 : float, optional
+        The rate constant for redistribution from the deep peripheral to central
+        compartment. Default=0.0001.
+    clearance : float, optional
+        Clearance rate of the drug (volume/time). Default=0.5.
+    pd_model : dict | None, optional
+        Set the PD model and its paramters. Default=None.
+        Options:
+            'emax' - parameters: 'emax', 'ec50'
+            'sigmoidal-emax' - parameters: 'emax', 'ec50', 'n'
+            'linear' - parameters: 'slope', 'intercept'
+            'log-linear' - parameters: 'slope', 'intercept'
+            'fixed' - parameters: 'e_fixed', 'c_threshold'
 
-    Returns:
-        pysb.Model: The model.
+    Returns
+    -------
+    model : pysb.Model
+        The generated model.
 
     Examples
     --------
