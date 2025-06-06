@@ -56,7 +56,7 @@ def drug_monomer(name="Drug"):
         Model()
         drug_monomer(name="chaidil")
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -97,7 +97,7 @@ def one_compartment(c1_name="CENTRAL", c1_size=1.0):
         Model()
         one_comapartment()
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -149,7 +149,7 @@ def two_compartments(c1_name="CENTRAL", c1_size=1.0, c2_name="PERIPHERAL", c2_si
         Model()
         two_comapartments(c1_size=30., c2_size=20.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -219,7 +219,7 @@ def three_compartments(
         Model()
         three_comapartments()
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -289,7 +289,7 @@ def eliminate(species, compartment, kel):
         Monomer('Drug')
         elimination(Drug, Central, 1e-4)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -365,7 +365,7 @@ def eliminate_mm(species, compartment, vmax, km):
         Monomer('Drug')
         eliminate_mm(Drug, Central, 1., 15.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -456,7 +456,7 @@ def clearance(species, compartment, cl):
         Monomer('Drug')
         clearace(Drug, CENTRAL, 1.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -534,7 +534,7 @@ def distribute(species, c1, c2, klist):
         Compartment("PERIPHERAL")
         distribute(Drug, CENTRAL, PERIPHERAL, [1, 1])
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -599,7 +599,7 @@ def transfer(species, c1, c2, k):
         Compartment("PERIPHERAL")
         transfer(Drug, CENTRAL, PERIPHERAL,  1.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -679,7 +679,7 @@ def emax(species, compartment, emax, ec50):
         Monomer('Drug')
         emax(Drug, Central, 2.4, 100.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -775,7 +775,7 @@ def sigmoidal_emax(species, compartment, emax, ec50, n):
         Monomer('Drug')
         sigmoidal_emax(Drug, Peripheral, 4.4, 50.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -871,7 +871,7 @@ def linear_effect(species, compartment, slope, intercept=0.):
         Monomer('Drug')
         linear_effect(Drug, Central, 0.35, intercept=0.1)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -965,7 +965,7 @@ def loglinear_effect(species, compartment, slope, intercept=0., base=None):
         Monomer('Drug')
         loglinear_effect(Drug, Central, 0.35, intercept=0.1)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -1063,7 +1063,7 @@ def fixed_effect(species, compartment, e_fixed, c_threshold):
         Monomer('Drug')
         fixed_effect(Drug, Central, 2.3, 10.0)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -1147,7 +1147,7 @@ def dose_bolus(species, compartment, dose):
         Monomer('Drug')
         dose_bolus(Drug, Central, 100.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -1224,7 +1224,7 @@ def dose_infusion(species, compartment, dose):
         Monomer('Drug')
         dose_infusion(Drug, Central, 100.)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
@@ -1313,7 +1313,7 @@ def dose_absorbed(species, compartment, dose, ka, f):
         Compartment('CENTRAL')
         dose_absorbed(Drug, CENTRAL, 100., 1.1, 0.8)
 
-    Execution::
+        Execution::
 
         >>> Model() # doctest:+ELLIPSIS
         <Model '_interactive_' ...>
