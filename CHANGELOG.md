@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.5.0] - 2025-06-06
+
+### Added
+
+- `standard` module defining convenience functions to quickly generate standard one-, two-, and three-compartment models. Added corresponding tests as well.
+- Initial set of documentation source files for mkdocs. 
+
 ## [0.4.0] - 2025-01-30
 
 ### Added
