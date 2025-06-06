@@ -3,8 +3,8 @@
 ![Python version badge](https://img.shields.io/badge/python-3.11.3-blue.svg)
 [![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
-![version](https://img.shields.io/badge/version-0.4.0-orange.svg)
-[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.4.0)
+![version](https://img.shields.io/badge/version-0.5.0-orange.svg)
+[![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.5.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12775536.svg)](https://doi.org/10.5281/zenodo.12775536)
 
 __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and QSP models in Python using the PySB modeling framework.__ 
@@ -12,6 +12,14 @@ __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and 
   :pill: :computer:
 
 ## What's new in
+
+**version 0.5.0**
+
+ * Documentation: [Docs](./docs)
+ * `standard` module defining convenience functions to generate one-, two-, and three-compartment models:
+     * `standard.one_compartment_model`
+     * `standard.two_compartment_model`
+     * `standard.three_compartment_model`
 
 **version 0.4.0**
 
@@ -37,9 +45,6 @@ __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and 
  4. [Documentation and Usage](#documentation-and-usage)
      1. [Quick Overview](#quick-overview)
      2. [Example](#example)
-     3. [List of macros](#list-of-macros)
-     4. [Simulating models](#simulating-models)
-     5. [Preconstructed models](#preconstructed-models)
  5. [Contact](#contact)
  6. [Contributing](#contributing)
  7. [Supporting](#supporting)  
@@ -73,27 +78,27 @@ pip install pytest coverage nose
 
 ### pip install
 
-You can install `pysb-pkpd` version 0.4.0 with `pip` sourced from the GitHub repo:
+You can install `pysb-pkpd` version 0.5.0 with `pip` sourced from the GitHub repo:
 
 ##### with git installed:
 
 Fresh install:
 ```
-pip install git+https://github.com/blakeaw/pysb-pkpd@v0.4.0
+pip install git+https://github.com/blakeaw/pysb-pkpd@v0.5.0
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.4.0
+pip install --upgrade git+https://github.com/blakeaw/pysb-pkpd@v0.5.0
 ```
 ##### without git installed:
 
 Fresh install:
 ```
-pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.4.0.zip
+pip install https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.5.0.zip
 ```
 Or to upgrade from an older version:
 ```
-pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.4.0.zip
+pip install --upgrade https://github.com/blakeaw/pysb-pkpd/archive/refs/tags/v0.5.0.zip
 ```
 ### Manual install
 
@@ -118,11 +123,11 @@ See: [CHANGELOG](CHANGELOG.md)
 
 # Documentation and Usage
 
+![Static Badge](https://img.shields.io/badge/pysb--pkpd-Documentation-blue?link=pysb-pkpd.github.io)
+
 ## Quick Overview
 
-**pysb-pkpd** is an add-on for the [PySB](https://pysb.org/) modeling framework. Its key feature is a set of domain-specific PySB macros that facilitate the efficient and descriptive programmatic construction of PK/PD models in Python using the PySB framework. It also provides a limited set of pre-constructed one-, two-, and three-compartment PK and PK/PD models.
-
-Additional details, such as examples and the list of available macros, can be found in the subsequent subsections of this README. 
+**pysb-pkpd** is an add-on for the [PySB](https://pysb.org/) modeling framework. Its key feature is a set of domain-specific PySB macros that facilitate the efficient and descriptive programmatic construction of PK/PD models in Python using the PySB framework. It also provides convenience functions to quickly build standard one-, two-, and three-compartment PK/PD models. 
 
 You can also check out my blog post, [Modeling Drug Dynamics using Programmatic PK/PD Models in Python: An Introduction to PK/PD Modeling using PySB and pysb-pkpd](https://blakeaw.github.io/2023-10-23-pysb-pkpd/), for an introduction to PK/PD modeling concepts and additional illustrative case studies of building PK/PD models with `pysb` and `pysb-pkpd`. 
 
@@ -177,72 +182,6 @@ pkpd.sigmoidal_emax(Drug, CENTRAL, emax=1.,
 ### PKRO Example
 
 See [this notebook](example-notebooks/1_simple-PKRO.ipynb) for another example using PySB with the `psyb-pkpd` add-on to build a simple semi-mechanistic pharmacokinetic and receptor occupancy (PKRO) model. 
-
-### List of macros
-
-The `pysb.pkpd.macros` module currently defines the following macros encoding PK, PD, and dosing functions:
-
-PK functions:
-
-  * `drug_monomer` - adds a simple monomer species for the drug to the model. If the drug needs binding sites or other state variables then you should directly use the PySB `Monomer` class instead.
-  * `one_compartment` - adds one compartment to the model for a one-comaprtment PK model. Alternatively, it could be used to add a new compartment to a multi-compartment model. 
-  * `two_compartments` - adds two compartments to the model for a two-comaprtment PK model.
-  * `three_compartments` - adds three compartments to the model for a three-compartment PK model.
-  * `eliminate` - adds linear (1st-order) elimination of the specified drug/species from a compartment.
-  * `eliminate_mm` - add non-linear, Michaelis-Menten, elimination of the specified drug/species from a compartment.
-  * `clearance` - adds linear (1st-order) elimination of the specified drug/species from a compartment by systemic clearance.
-  * `distribute` - adds distribution/redistribution of the specified drug/species between two compartments.
-  * `transfer` - adds one-way transfer (distribution with no redistribution) of the specified drug/species from one compartment to another.
-
-PD functions:
-
-  * `emax` - Adds an Emax model expression for the specified drug/species in a given compartment. Generates a PySB Expression with name: 'Emax_expr_DrugName_CompartmentName'
-  * `sigmoidal_emax` - Adds a sigmoidal Emax model expression for the specified drug/species in a given compartment. Generates a PySB Expression with name: 'Emax_expr_DrugName_CompartmentName'
-  * `linear_effect` - Adds a linear effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'LinearEffect_expr_DrugName_CompartmentName'
-  * `loglinear_effect` - Adds a log-linear effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'LogLinearEffect_expr_DrugName_CompartmentName'
-  * `fixed_effect` - Adds a fixed-effect model expression for the specified drug/specis in a given compartment. Generates a PySB Expression with name: 'FixedEffect_expr_DrugName_CompartmentName'
-
-Dosing functions:
-
-  * `dose_bolus` - adds an instantaneous bolus dose of the specified drug/species which defines the initial concentration at time zero; e.g., to model IV bolus.
-  * `dose_infusion` - adds a continous (zero-order) infusion of the specified drug/species; e.g., to model continuous IV infusion. 
-  * `dose_absorbed` - adds a dose of the specified drug which is absorbed into the specified compartment via first-order kinetics, including a bioavailibity factor; e.g., to model oral dosing or a subcutaneous depot. 
-
-### Simulating models
-
-`pysb-pkpd` provides a `simulate` function that can be used to easily 
-execute a simulation of your PK/PD model as below:
-
-```python
-import numpy as np
-import pysb.pkpd as pkpd
-from my_pkpd_model import model
-
-# Simulate the PKPD/PySB model.
-## Set the timespan for the simulation:
-tspan = np.arange(241) # 0-240 seconds at 1 second intervals
-## Execute the simulation:
-simulation_trajectory = pkpd.simulate(model, tspan)
-```
-
-
-### Preconstructed models
-
-Another feature of `pysb-pkpd` are a limited set of pre-constructed two-compartment and three-compartment models which can be used for empirical fitting of PK data or as base models for more complex semi-mechanistic PK/PD mdoels. 
-
-#### PK/PD models
-
-Two-compartment and three-compartment PK models with Emax PD function for the drug in the central compartment:
-```python
-from pysb.pkpd.models import twocomp_emax, threecomp_emax
-```
-
-#### PK-only models
-
-Two-compartment and three-compartment PK models:
-```python
-from pysb.pkpd.pk_models import twocomp, threecomp
-```
 
 
 ------
