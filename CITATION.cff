@@ -20,7 +20,7 @@ abstract: >-
 license: BSD-2-Clause
 version: 0.5.0
 doi: 10.5281/zenodo.12775530
-date-released: '2024-07-21'
+date-released: '2025-06-06'
 references:
   - authors:
       - family-names: Lopez

@@ -5,7 +5,9 @@
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
 ![version](https://img.shields.io/badge/version-0.5.0-orange.svg)
 [![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.5.0)
+[![Static Badge](https://img.shields.io/badge/documentation-blakeaw.github.io/pysb--pkpd/-blue?link=https://blakeaw.github.io/pysb-pkpd/)](https://blakeaw.github.io/pysb-pkpd/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12775536.svg)](https://doi.org/10.5281/zenodo.12775536)
+
 
 __`pysb-pkpd` enables you to efficiently program and simulate dynamic PK/PD and QSP models in Python using the PySB modeling framework.__ 
 
@@ -123,7 +125,13 @@ See: [CHANGELOG](CHANGELOG.md)
 
 # Documentation and Usage
 
-![Static Badge](https://img.shields.io/badge/pysb--pkpd-Documentation-blue?link=pysb-pkpd.github.io)
+Full documentation is available at:
+
+[blakeaw.github.io/pysb-pkpd/](https://blakeaw.github.io/pysb-pkpd/) 
+
+Built With:
+
+[![Built with Material for MkDocs](https://img.shields.io/badge/Material_for_MkDocs-526CFE?style=for-the-badge&logo=MaterialForMkDocs&logoColor=white)](https://squidfunk.github.io/mkdocs-material/)
 
 ## Quick Overview
 
