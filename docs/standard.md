@@ -10,7 +10,9 @@
 
 The dose route is specified with the `dose_route` input argument with optional parameters specified via the `dose_parameters` argument. The options are:
 
-* `'iv-bolus'` with 
+* `'iv-bolus'`, no special parameters. Instantaneous IV bolus. Example: `dose_route='iv-bolus'`.
+* `iv-infusion`, no special parameters. Constant zero-order IV infusion. Note that in this case the dose amount is the infusion rate (amount/time). Example: `dose_route='iv-infusion'`
+* `oral` with `dose_parameters` `'ka'` (1st-order rate constant) and `'f'` (bioavailibility fraction). Linear absorption to model oral or sub-cutaneous depot dose. The `dose_parameters` are passed in as dictionary. Example: `dose_route='oral'` with `dose_parameters={'ka': 0.01, 'f': 0.75}`.
 
 ### Setting the PD model
 
@@ -21,6 +23,8 @@ PD models are specified with the optional `pd_model` input argument which takes 
 * `'linear'` with parameters `'slope'` and `'intercept'`. Example input: `pd_model={'linear':{'slope': 1.4, 'intercept':0.43}}`
 * `'log-linear'` with parameters `'slope'` and `'intercept'`. Example input: `pd_model={'log-linear':{'slope': 1.4, 'intercept':0.43}}`
 * `'fixed'` with parameters `'e_fixed'` and `'c_threshold'`. Example input: `pd_model={'fixed':{'e_fixed': 4.7, 'c_threshold':100.0}}`
+
+The associated equations for each PD model are shown in the [PD macros descriptions](macros.md#pd-functions).
 
 ## Example
 
