@@ -822,7 +822,9 @@
 <h3 id="dose-routes-and-parameters">Dose routes and parameters</h3>
 <p>The dose route is specified with the <code>dose_route</code> input argument with optional parameters specified via the <code>dose_parameters</code> argument. The options are:</p>
 <ul>
-<li><code>'iv-bolus'</code> with </li>
+<li><code>'iv-bolus'</code>, no special parameters. Instantaneous IV bolus. Example: <code>dose_route='iv-bolus'</code>.</li>
+<li><code>iv-infusion</code>, no special parameters. Constant zero-order IV infusion. Note that in this case the dose amount is the infusion rate (amount/time). Example: <code>dose_route='iv-infusion'</code></li>
+<li><code>oral</code> with <code>dose_parameters</code> <code>'ka'</code> (1st-order rate constant) and <code>'f'</code> (bioavailibility fraction). Linear absorption to model oral or sub-cutaneous depot dose. The <code>dose_parameters</code> are passed in as dictionary. Example: <code>dose_route='oral'</code> with <code>dose_parameters={'ka': 0.01, 'f': 0.75}</code>.</li>
 </ul>
 <h3 id="setting-the-pd-model">Setting the PD model</h3>
 <p>PD models are specified with the optional <code>pd_model</code> input argument which takes a nested dictionary. The outer dictionary key specifies the model type while the inner dictionary specifies the model parameters and their values. The options are:</p>
@@ -833,6 +835,7 @@
 <li><code>'log-linear'</code> with parameters <code>'slope'</code> and <code>'intercept'</code>. Example input: <code>pd_model={'log-linear':{'slope': 1.4, 'intercept':0.43}}</code></li>
 <li><code>'fixed'</code> with parameters <code>'e_fixed'</code> and <code>'c_threshold'</code>. Example input: <code>pd_model={'fixed':{'e_fixed': 4.7, 'c_threshold':100.0}}</code></li>
 </ul>
+<p>The associated equations for each PD model are shown in the <a href="../macros/#pd-functions">PD macros descriptions</a>.</p>
 <h2 id="example">Example</h2>
 <p>One-compartment model with oral administration and an Emax PD model:
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">one_compartment_model</span><span class="p">(</span>
