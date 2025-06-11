@@ -31,18 +31,18 @@ Built on **[PySB](https://pysb.org/)**, a powerful programmatic and rule-based f
 
 ## Installation
   1. Install **PySB** using [conda](https://docs.conda.io/en/latest/) or [mamba](https://github.com/mamba-org/mamba):
-    ```bash
+    ```sh
     conda install -c alubbock pysb
     ```
     **OR**
-    ```bash
+    ```sh
     mamba install -c alubbock pysb
     ```    
   2. Install **pysb-pkpd** with pip:
-    ```bash
-    pip install git+https://github.com/blakeaw/pysb-pkpd@v0.5.0
+    ```sh
+    pip install pysb-pkpd
     ```
-Ensure you have Python 3.11.3+ and PySB 1.15.0 installed.
+Ensure you have Python 3.11.3+ and PySB 1.15.0+ installed.
 
 ## Quick-start Example
 
