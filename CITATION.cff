@@ -18,7 +18,7 @@ abstract: >-
   PySB add-on providing domain-specific macros and models
   for empirical and mechanistic PK/PD modeling. 
 license: BSD-2-Clause
-version: 0.5.2
+version: 0.5.3
 doi: 10.5281/zenodo.12775530
 date-released: '2025-06-10'
 references:

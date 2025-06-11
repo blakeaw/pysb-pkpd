@@ -5,4 +5,4 @@ from . import macros, models, pk_models, standard
 from .macros import *
 from .util import simulate
 
-__version__ = '0.5.2'
+__version__ = '0.5.3'
