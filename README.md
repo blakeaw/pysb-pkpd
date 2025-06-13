@@ -3,8 +3,10 @@
 ![Python version badge](https://img.shields.io/badge/python-3.11.3-blue.svg)
 [![PySB version badge](https://img.shields.io/badge/PySB->%3D1.15.0-9cf.svg)](https://pysb.org/)
 [![license](https://img.shields.io/github/license/blakeaw/pysb-pkpd.svg)](LICENSE)
-![version](https://img.shields.io/badge/version-0.5.3-orange.svg)
 [![release](https://img.shields.io/github/release-pre/blakeaw/pysb-pkpd.svg)](https://github.com/blakeaw/pysb-pkpd/releases/tag/v0.5.3)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![Static Badge](https://img.shields.io/badge/coverage-97%25-green)
+[![PyPI Downloads](https://static.pepy.tech/badge/pysb-pkpd)](https://pepy.tech/projects/pysb-pkpd)
 [![Static Badge](https://img.shields.io/badge/documentation-blakeaw.github.io/pysb--pkpd/-blue?link=https://blakeaw.github.io/pysb-pkpd/)](https://blakeaw.github.io/pysb-pkpd/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12775536.svg)](https://doi.org/10.5281/zenodo.12775536)
 
